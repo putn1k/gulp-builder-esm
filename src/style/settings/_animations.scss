@@ -1,0 +1,15 @@
+.anim-small-drop {
+  animation-fill-mode: forwards;
+  animation-duration: .2s;
+  animation-name: small-drop;
+}
+
+@keyframes small-drop {
+  0% {
+    transform: translate(0, -100%);
+  }
+
+  100% {
+    transform: translate(0, 0);
+  }
+}

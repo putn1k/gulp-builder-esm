@@ -1,0 +1,50 @@
+{
+  "name": "gulp-builder-esm",
+  "version": "1.0.0",
+  "description": "Сборщик проектов на gulp с ES6 модулями",
+  "main": "gulpfile.js",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com/putn1k/gulp-builder-esm.git"
+  },
+  "author": "putn1k",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/putn1k/gulp-builder-esm/issues"
+  },
+  "homepage": "https://github.com/putn1k/gulp-builder-esm#readme",
+  "scripts": {
+    "start": "gulp",
+    "build": "gulp build",
+    "prod": "npm run lint && gulp build",
+    "server": "gulp server",
+    "clean": "gulp clean",
+    "lint": "eslint src/js/"
+  },
+  "devDependencies": {
+    "browser-sync": "2.27.10",
+    "del": "6.0.0",
+    "eslint": "8.15.0",
+    "gulp": "4.0.2",
+    "gulp-autoprefixer": "8.0.0",
+    "gulp-clean-css": "4.3.0",
+    "gulp-concat": "2.6.1",
+    "gulp-csscomb": "3.1.0",
+    "gulp-file-include": "2.3.0",
+    "gulp-imagemin": "7.1.0",
+    "gulp-notify": "4.0.0",
+    "gulp-postcss": "9.0.1",
+    "gulp-sass": "5.1.0",
+    "gulp-sourcemaps": "3.0.0",
+    "gulp-svg-sprite": "2.0.0",
+    "sass": "1.55.0"
+  },
+  "dependencies": {
+    "gulp-cli": "^2.3.0"
+  },
+  "browserslist": [
+    "defaults",
+    "last 1 versions",
+    "not IE 11"
+  ]
+}

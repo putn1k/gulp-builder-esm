@@ -1,0 +1,26 @@
+// COLORS
+$white: #FFFFFF;
+$black: #040F0F;
+
+$blue: #4d5acf;
+$accent: $blue;
+
+:root {
+  --accent: #4d5acf;
+}
+
+//BREAKPOINTS FOR MOBILE FIRST
+$sm: 576px;
+$md: 768px;
+$lg: 992px;
+$xl: 1200px;
+
+// Fonts
+$main-font: "Open Sans";
+
+$font-hd: 28px;
+$font-h1: 24px;
+$font-h2: 20px;
+$font-h3: 18px;
+$font-h4: 18px;
+$font-sm: 14px;

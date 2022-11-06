@@ -1,0 +1,52 @@
+h1 {
+  font-size: $font-h1;
+  line-height: 1.2;
+}
+
+h2 {
+  font-size: $font-h2;
+  line-height: 1.25;
+}
+
+h3 {
+  font-size: $font-h3;
+  line-height: 1.25;
+}
+
+h4 {
+  font-size: $font-h4;
+  font-weight: 400;
+  line-height: 1.25;
+}
+
+.hd {
+  font-size: $font-hd;
+  line-height: 1.2;
+  font-weight: 700;
+
+  &--h1 {
+    font-size: $font-h1;
+    line-height: 1.2;
+  }
+
+  &--h2 {
+    font-size: $font-h2;
+    line-height: 1.25;
+  }
+
+  &--h3 {
+    font-size: $font-h3;
+    line-height: 1.25;
+  }
+
+  &--h4 {
+    font-size: $font-h4;
+    font-weight: 400;
+    line-height: 1.25;
+  }
+}
+
+.small {
+  font-size: $font-sm;
+  line-height: 1.25;
+}

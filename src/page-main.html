@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+  @include('html/meta.html')
+  <title>Page title</title>
+</head>
+
+<body class="indent-reset">
+  <div aria-hidden="true" id="site-top"></div>
+  <div class="site-container">
+    @include('html/header.html')
+    <main>
+      @include('html/main/index.html')
+    </main>
+    @include('html/footer.html')
+  </div>
+  @include('html/scripts.html')
+</body>
+
+</html>

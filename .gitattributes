@@ -1,0 +1,7 @@
+*. text eol=lf
+
+*.png text
+*.jpg text
+*.jpeg text
+*.webp text
+*.woff2 text
