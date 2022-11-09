@@ -1,18 +1,28 @@
-const sendFormData = ( form ) => {
-  const formData = new FormData( form );
-  fetch( 'mail.php', {
-    method: 'POST',
+import {
+  RequestOptions
+} from './constants.js';
+
+import {
+  disableSubmitBtn,
+  enableSubmitBtn,
+} from './utils.js';
+
+export const sendFormData = ( evt ) => {
+  disableSubmitBtn( evt.target );
+  const formData = new FormData( evt.target );
+  fetch( RequestOptions.HandlerURL, {
+    method: RequestOptions.MethodPost,
     body: formData
   } ).then( ( data ) => {
     if ( data.ok ) {
-      // do something
+      // if send success
+      evt.target.reset();
+    } else {
+      // if send error
     }
   } ).catch( () => {
-    // do something
+    // if send error - server error
+  } ).finally( () => {
+    enableSubmitBtn( evt.target );
   } );
-};
-
-export const runFormHandler = ( evt ) => {
-  sendFormData( evt.target );
-  evt.target.reset();
 };

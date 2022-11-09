@@ -3,7 +3,7 @@ import {
 } from './options.js';
 
 import {
-  runFormHandler,
+  sendFormData,
 } from './send-form.js';
 
 new justPhoneMask( {
@@ -82,7 +82,7 @@ const validateForms = () => {
       }
     } );
     validationRules.onSuccess( ( evt ) => {
-      runFormHandler( evt );
+      sendFormData( evt );
     } );
   } );
 };
