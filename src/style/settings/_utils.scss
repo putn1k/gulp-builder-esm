@@ -38,10 +38,6 @@ input[type="checkbox"].visually-hidden {
   outline: none;
 }
 
-.site-container {
-  overflow: hidden;
-}
-
 .is-open-menu {
   overflow: hidden;
 }
@@ -64,4 +60,26 @@ input[type="checkbox"].visually-hidden {
   border: none;
   cursor: pointer;
   -webkit-tap-highlight-color: transparent;
+}
+
+.lnum {
+  font-variant-numeric: lining-nums;
+  font-feature-settings: "lnum";
+  -webkit-font-feature-settings: "lnum";
+  -moz-font-feature-settings: "lnum";
+}
+
+.custom-scroll {
+  scrollbar-color: var(--scrollbar-thumb) var(--scrollbar);
+  scrollbar-width: thin;
+
+  &::-webkit-scrollbar {
+    width: 4px;
+    height: 4px;
+    background-color: var(--scrollbar-thumb);
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: var(--scrollbar);
+  }
 }

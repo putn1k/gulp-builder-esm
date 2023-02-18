@@ -1,0 +1,8 @@
+.slider {
+  position: relative;
+  overflow: hidden;
+
+  &__wrapper {
+    box-sizing: border-box;
+  }
+}

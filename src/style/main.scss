@@ -1,16 +1,8 @@
-// базовые подключения
 @import "vars";
 @import "mixins";
 @import "fonts";
 @import "settings";
 
-// подключения общих компонентов страниц
-@import "blocks/buttons";
-@import "blocks/form";
-@import "blocks/scroll-top";
-@import "blocks/modal";
-@import "blocks/header";
-@import "blocks/footer";
-
-// подключения стилей страниц
+@import "blocks/header/index";
+@import "blocks/footer/index";
 @import "blocks/main/index";
