@@ -6,14 +6,17 @@
   <title>Page title</title>
 </head>
 
-<body class="indent-reset">
+<body class="indent-reset site">
   <div aria-hidden="true" id="site-top"></div>
-  <div class="site-container">
-    @include('html/header.html')
-    <main>
-      @include('html/main/index.html')
-    </main>
-    @include('html/footer.html')
+  <div class="site__container">
+    @include('html/header/index.html')
+    <div class="site__content">
+      <!-- @include('html/breadcrumbs.html') -->
+      <main>
+        @include('html/main/index.html')
+      </main>
+    </div>
+    @include('html/footer/index.html')
   </div>
   @include('html/scripts.html')
 </body>
