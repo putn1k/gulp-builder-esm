@@ -13,7 +13,7 @@
     "SmoothScroll": "readonly",
     "Swiper": "readonly",
     "JustValidate": "readonly",
-    "justPhoneMask": "readonly"
+    "JustPhoneMask": "readonly"
   },
   "extends": "eslint:recommended",
   "rules": {
@@ -24,6 +24,6 @@
     "semi-style": "error",
     "no-multi-spaces": "error",
     "no-multiple-empty-lines": "error",
-    "no-trailing-spaces": "error",
+    "no-trailing-spaces": "error"
   }
 }
