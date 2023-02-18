@@ -1,15 +1,89 @@
-.anim-small-drop {
+.anim-fade-down {
+  animation-name: fade-down;
   animation-fill-mode: forwards;
   animation-duration: .2s;
-  animation-name: small-drop;
 }
 
-@keyframes small-drop {
+.anim-fade-up {
+  animation-name: fade-up;
+  animation-fill-mode: forwards;
+  animation-duration: .2s;
+}
+
+.anim-fade-left {
+  animation-name: fade-left;
+  animation-fill-mode: forwards;
+  animation-duration: .2s;
+}
+
+.anim-fade-right {
+  animation-name: fade-right;
+  animation-fill-mode: forwards;
+  animation-duration: .2s;
+}
+
+.anim-fade-in {
+  animation-name: fade-in;
+  animation-fill-mode: forwards;
+  animation-duration: .2s;
+}
+
+@keyframes fade-down {
   0% {
-    transform: translate(0, -100%);
+    transform: translate(0, -33%);
+    opacity: 0;
   }
 
   100% {
     transform: translate(0, 0);
+    opacity: 1;
+  }
+}
+
+@keyframes fade-up {
+  0% {
+    transform: translate(0, 33%);
+    opacity: 0;
+  }
+
+  100% {
+    transform: translate(0, 0);
+    opacity: 1;
+  }
+}
+
+@keyframes fade-left {
+  0% {
+    transform: translate(-33%, 0);
+    opacity: 0;
+  }
+
+  100% {
+    transform: translate(0, 0);
+    opacity: 1;
+  }
+}
+
+@keyframes fade-right {
+  0% {
+    transform: translate(33%, 0);
+    opacity: 0;
+  }
+
+  100% {
+    transform: translate(0, 0);
+    opacity: 1;
+  }
+}
+
+@keyframes fade-in {
+  0% {
+    transform: scale(0.8);
+    opacity: 0;
+  }
+
+  100% {
+    transform: scale(1);
+    opacity: 1;
   }
 }
