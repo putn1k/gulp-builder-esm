@@ -19,8 +19,43 @@ export const Options = {
       textAlign: 'left',
     },
   },
-  ObserveScrollTop: {
-    rootMargin: '600px',
-    threshold: 1,
+  Observer: {
+    ScrollTop: {
+      rootMargin: '600px',
+      threshold: 1,
+    },
+  },
+  RequestOptions: {
+    HandlerURL: 'https://jsonplaceholder.typicode.com/posts',
+    MethodGet: 'GET',
+    MethodPost: 'POST',
+  },
+  Swiper: {
+    Name: {
+      slidesPerView: 1,
+      spaceBetween: 0,
+      autoHeight: true,
+      loop: true,
+      effect: 'fade',
+      fadeEffect: {
+        crossFade: true,
+      },
+      navigation: {
+        prevEl: '.__prev',
+        nextEl: '.__next',
+      },
+      pagination: {
+        el: '.__pagination',
+        clickable: false,
+      },
+      breakpoints: {
+        768: {
+          slidesPerView: 3,
+        },
+        1200: {
+          slidesPerView: 4,
+        },
+      },
+    },
   },
 };

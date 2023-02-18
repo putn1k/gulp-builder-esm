@@ -42,9 +42,15 @@ const enableSubmitBtn = ( form ) => {
   form.querySelector( '[type="submit"]' ).removeAttribute( 'disabled' );
 };
 
+const isEscKey = ( evt ) => evt.key === 'Escape';
+
+const addLeadZero = ( number ) => ( number < 10 ) ? `0${number}` : number;
+
 export {
   debounce,
   throttle,
   disableSubmitBtn,
   enableSubmitBtn,
+  isEscKey,
+  addLeadZero,
 };

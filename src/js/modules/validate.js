@@ -3,16 +3,18 @@ import {
 } from './options.js';
 
 import {
-  sendFormData,
-} from './send-form.js';
+  sendData,
+} from './send-data.js';
 
-new justPhoneMask( {
+new JustPhoneMask( {
   bodyMask: ' (___) ___ __ __',
 } );
 
 const validateForms = () => {
   const forms = document.querySelectorAll( 'form[data-validate]' );
+
   if ( forms.length < 1 ) return;
+
   forms.forEach( ( form ) => {
     const formID = `#${form.id}`;
     const validationRules = new JustValidate( formID, Options.ValidationErrors );
@@ -72,17 +74,17 @@ const validateForms = () => {
             },
           ] );
           break;
-        case 'policy':
-          validationRules.addField( `${formID} [data-validate="policy"]`, [ {
+        case 'confirm':
+          validationRules.addField( `${formID} [data-validate="confirm"]`, [ {
             rule: 'required',
             value: true,
-            errorMessage: 'Подтвердите согласие с политикой конфидециальности',
+            errorMessage: 'Подтвердите согласие на обработку персональных данных',
           }, ] );
           break;
       }
     } );
     validationRules.onSuccess( ( evt ) => {
-      sendFormData( evt );
+      sendData( evt );
     } );
   } );
 };

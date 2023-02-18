@@ -16,7 +16,7 @@ const initScrollTop = () => {
       }
     } );
   };
-  new IntersectionObserver( cb, Options.ObserveScrollTop ).observe( targetNode );
+  new IntersectionObserver( cb, Options.Observer.ScrollTop ).observe( targetNode );
 };
 
 initScrollTop();
