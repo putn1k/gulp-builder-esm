@@ -1,0 +1,12 @@
+{
+  "extends": "stylelint-config-standard-scss",
+  "rules": {
+    "color-hex-alpha": "never",
+    "color-hex-length": "long",
+    "color-named": "never",
+    "color-function-notation": "legacy",
+    "alpha-value-notation": "number",
+    "selector-not-notation": "simple",
+    "selector-class-pattern": null
+  }
+}
