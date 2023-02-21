@@ -18,10 +18,104 @@ const concat = require( 'gulp-concat' );
 const csscomb = require( "gulp-csscomb" );
 const cleanCSS = require( 'gulp-clean-css' );
 const beautifyHTML = require( 'gulp-html-beautify' );
+const IMAGE_FILE_TYPES = [
+  './src/img/**.jpg',
+  './src/img/**.png',
+  './src/img/**.jpeg',
+  './src/img/**.webp',
+  './src/img/svg-folders/**/*.svg',
+  './src/img/*.svg',
+  './src/img/**/*.jpg',
+  './src/img/**/*.png',
+  './src/img/**/*.jpeg',
+  './src/img/**/*.webp'
+];
 
 const cleanBuildFolder = () => {
-  return del( [ 'build/*' ] )
+  return del( [ './build/*' ] )
 }
+
+const htmlInclude = () => {
+  return src( [ './src/*.html' ] )
+    .pipe( fileInclude( {
+      prefix: '@',
+      basepath: '@file'
+    } ).on( "error", notify.onError() ) )
+    .pipe( dest( './build' ) )
+    .pipe( beautifyHTML( {
+      indentSize: 2
+    } ) )
+    .pipe( dest( './build' ) )
+    .pipe( browserSync.stream() );
+}
+
+const getStyles = () => {
+  return src( './src/style/**/*.scss' )
+    .pipe( sourcemaps.init() )
+    .pipe( sass().on( "error", notify.onError() ) )
+    .pipe( postcss( [
+      autoprefixer( {
+        cascade: false,
+      } )
+    ] ) )
+    .pipe( sourcemaps.write( '.' ) )
+    .pipe( dest( './build/style' ) )
+    .pipe( browserSync.stream() );
+};
+
+const getProdStyles = () => {
+  return src( './src/style/**/*.scss' )
+    .pipe( sass().on( "error", notify.onError() ) )
+    .pipe( postcss( [
+      autoprefixer( {
+        cascade: false,
+      } )
+    ] ) )
+    .pipe( dest( './build/style' ) )
+    .pipe( csscomb() )
+    .pipe( dest( './build/style' ) )
+};
+
+const minifyVendorBundle = () => {
+  return src( './build/style/vendor-bundle.css' )
+    .pipe( cleanCSS( {
+      level: 2
+    } ) )
+    .pipe( dest( './build/style' ) )
+};
+
+const getScripts = () => {
+  src( './src/vendor/**/*.js' )
+    .pipe( concat( 'vendor-bundle.js' ) )
+    .pipe( dest( './build/js' ) )
+  return src( './src/js/**' )
+    .pipe( dest( './build/js' ) )
+    .pipe( browserSync.stream() );
+}
+
+const getAssets = () => {
+  return src( './src/assets/**' )
+    .pipe( dest( './build' ) )
+}
+
+const getImages = () => {
+  return src( IMAGE_FILE_TYPES )
+    .pipe( dest( './build/img' ) )
+};
+
+const getProdImages = () => {
+  return src( IMAGE_FILE_TYPES )
+    .pipe( imagemin( [
+      imagemin.optipng( {
+        optimizationLevel: 3
+      } ),
+      imagemin.mozjpeg( {
+        progressive: true
+      } ),
+      imagemin.svgo()
+    ] ) )
+    .pipe( dest( './build/img' ) )
+};
 
 const getSprite = () => {
   return src( './src/img/sprite/**.svg' )
@@ -35,112 +129,6 @@ const getSprite = () => {
     .pipe( dest( './build/img' ) );
 }
 
-const getStyles = () => {
-  return src( './src/style/**/*.scss' )
-    .pipe( sourcemaps.init() )
-    .pipe( sass().on( "error", notify.onError() ) )
-    .pipe( postcss( [
-      autoprefixer( {
-        cascade: false,
-      } )
-    ] ) )
-    .pipe( sourcemaps.write( '.' ) )
-    .pipe( dest( './build/style/' ) )
-    .pipe( csscomb() )
-    .pipe( dest( './build/style/' ) )
-    .pipe( browserSync.stream() );
-};
-
-const getProdStyles = () => {
-  return src( './src/style/**/*.scss' )
-    .pipe( sass().on( "error", notify.onError() ) )
-    .pipe( postcss( [
-      autoprefixer( {
-        cascade: false,
-      } )
-    ] ) )
-    .pipe( dest( './build/style/' ) )
-    .pipe( csscomb() )
-    .pipe( dest( './build/style/' ) )
-};
-
-const minifyVendorBundle = () => {
-  return src( './build/style/vendor-bundle.css' )
-    .pipe( cleanCSS( {
-      level: 2
-    } ) )
-    .pipe( dest( './build/style/' ) )
-};
-
-const getScripts = () => {
-  src( './src/vendor/**/*.js' )
-    .pipe( concat( 'vendor-bundle.js' ) )
-    .pipe( dest( './build/js/' ) )
-  return src( './src/js/**' )
-    .pipe( dest( './build/js' ) )
-    .pipe( browserSync.stream() );
-}
-
-const getAssets = () => {
-  return src( './src/assets/**' )
-    .pipe( dest( './build' ) )
-}
-
-const getImages = () => {
-  return src( [
-      './src/img/**.jpg',
-      './src/img/**.png',
-      './src/img/**.jpeg',
-      './src/img/**.webp',
-      './src/img/svg-folders/**/*.svg',
-      './src/img/*.svg',
-      './src/img/**/*.jpg',
-      './src/img/**/*.png',
-      './src/img/**/*.jpeg',
-      './src/img/**/*.webp'
-    ] )
-    .pipe( dest( './build/img' ) )
-};
-
-const getProdImages = () => {
-  return src( [
-      './src/img/**.jpg',
-      './src/img/**.png',
-      './src/img/**.jpeg',
-      './src/img/**.webp',
-      './src/img/svg-folders/**/*.svg',
-      './src/img/*.svg',
-      './src/img/**/*.jpg',
-      './src/img/**/*.png',
-      './src/img/**/*.jpeg',
-      './src/img/**/*.webp'
-    ] )
-    .pipe( imagemin( [
-      imagemin.optipng( {
-        optimizationLevel: 3
-      } ),
-      imagemin.mozjpeg( {
-        progressive: true
-      } ),
-      imagemin.svgo()
-    ] ) )
-    .pipe( dest( './build/img' ) )
-};
-
-const htmlInclude = () => {
-  return src( [ './src/*.html' ] )
-    .pipe( fileInclude( {
-      prefix: '@',
-      basepath: '@file'
-    } ).on( "error", notify.onError() ) )
-    .pipe( dest( './build' ) )
-    .pipe( beautifyHTML( {
-      indentSize: 2
-    } ) )
-    .pipe( dest( './build/' ) )
-    .pipe( browserSync.stream() );
-}
-
 const watchFiles = () => {
   browserSync.init( {
     server: {
@@ -150,13 +138,13 @@ const watchFiles = () => {
     ui: false,
   } );
 
+  watch( './src/assets/**', getAssets );
   watch( './src/*.html', htmlInclude );
   watch( './src/html/**/*.html', htmlInclude );
-  watch( './src/assets/**', getAssets );
   watch( './src/vendor/**/*.css', getStyles );
-  watch( './src/js/**/*.js', getScripts );
-  watch( './src/style/**/*.scss', getStyles );
   watch( './src/vendor/**/*.js', getScripts );
+  watch( './src/style/**/*.scss', getStyles );
+  watch( './src/js/**/*.js', getScripts );
   watch( './src/img/*.{jpg,jpeg,png,svg,webp}', getImages );
   watch( './src/img/**/*.{jpg,jpeg,png,webp}', getImages );
   watch( './src/img/svg-folders/**/*.svg', getImages );
