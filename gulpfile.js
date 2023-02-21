@@ -17,6 +17,7 @@ const imagemin = require( 'gulp-imagemin' );
 const concat = require( 'gulp-concat' );
 const csscomb = require( "gulp-csscomb" );
 const cleanCSS = require( 'gulp-clean-css' );
+const beautifyHTML = require( 'gulp-html-beautify' );
 
 const cleanBuildFolder = () => {
   return del( [ 'build/*' ] )
@@ -133,6 +134,10 @@ const htmlInclude = () => {
       basepath: '@file'
     } ).on( "error", notify.onError() ) )
     .pipe( dest( './build' ) )
+    .pipe( beautifyHTML( {
+      indentSize: 2
+    } ) )
+    .pipe( dest( './build/' ) )
     .pipe( browserSync.stream() );
 }
 
