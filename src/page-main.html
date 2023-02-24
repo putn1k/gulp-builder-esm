@@ -2,7 +2,7 @@
 <html lang="ru">
 
 <head>
-  @include('html/head/meta.html')
+  @include('html/head/index.html')
   <title>Page title</title>
 </head>
 
@@ -11,14 +11,14 @@
   <div class="site__container">
     @include('html/header/index.html')
     <div class="site__content">
-      <!-- @include('html/breadcrumbs.html') -->
+      <!-- @include('html/utils/breadcrumbs.html') -->
       <main>
         @include('html/main/index.html')
       </main>
     </div>
     @include('html/footer/index.html')
   </div>
-  @include('html/scripts.html')
+  @include('html/footer/scripts.html')
 </body>
 
 </html>
