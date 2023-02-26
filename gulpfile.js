@@ -1,124 +1,120 @@
+import gulp from 'gulp';
+import del from 'del';
+import concat from 'gulp-concat';
+import gulpIf from 'gulp-if';
+import notify from 'gulp-notify';
+import bs from 'browser-sync';
+import fileInclude from 'gulp-file-include';
+import beautifyHTML from 'gulp-html-beautify';
+import dartSass from 'sass';
+import gulpSass from 'gulp-sass';
+import postcss from 'gulp-postcss';
+import autoprefixer from 'autoprefixer';
+import cleanCSS from 'gulp-clean-css';
+import csscomb from "gulp-csscomb";
+import squoosh from 'gulp-libsquoosh';
+import svgmin from 'gulp-svgmin';
+import svgSprite from 'gulp-svg-sprite';
+
 const {
   src,
   dest,
   series,
   watch
-} = require( 'gulp' );
-const postcss = require( "gulp-postcss" );
-const autoprefixer = require( 'autoprefixer' );
-const del = require( 'del' );
-const browserSync = require( 'browser-sync' ).create();
-const sass = require( 'gulp-sass' )( require( 'sass' ) );
-const svgSprite = require( 'gulp-svg-sprite' );
-const fileInclude = require( 'gulp-file-include' );
-const sourcemaps = require( 'gulp-sourcemaps' );
-const notify = require( 'gulp-notify' );
-const imagemin = require( 'gulp-imagemin' );
-const concat = require( 'gulp-concat' );
-const csscomb = require( "gulp-csscomb" );
-const cleanCSS = require( 'gulp-clean-css' );
-const beautifyHTML = require( 'gulp-html-beautify' );
-const IMAGE_FILE_TYPES = [
-  './src/img/**.jpg',
-  './src/img/**.png',
-  './src/img/**.jpeg',
-  './src/img/**.webp',
-  './src/img/svg-folders/**/*.svg',
-  './src/img/*.svg',
-  './src/img/**/*.jpg',
-  './src/img/**/*.png',
-  './src/img/**/*.jpeg',
-  './src/img/**/*.webp'
+} = gulp;
+const sass = gulpSass( dartSass );
+const browserSync = bs.create();
+const Path = {
+  Src: './src/',
+  Build: './build/',
+  HTML: 'html/',
+  Style: 'style/',
+  JS: 'js/',
+  Img: 'img/',
+  Vendor: 'vendor/',
+  Assets: 'assets/'
+};
+const RASTER_FILES = [
+  `${Path.Src}${Path.Img}**/*.jpg`,
+  `${Path.Src}${Path.Img}**/*.jpeg`,
+  `${Path.Src}${Path.Img}**/*.png`,
+  `${Path.Src}${Path.Img}**/*.webp`
 ];
+const VECTOR_FILES = [
+  `${Path.Src}${Path.Img}**/*.svg`,
+  `!${Path.Src}${Path.Img}sprite/**.svg`
+];
+let isProd = false;
 
-const cleanBuildFolder = () => {
-  return del( [ './build/*' ] )
-}
+const cleanBuildFolder = () => del( [ `${Path.Build}*` ] );
 
-const htmlInclude = () => {
-  return src( [ './src/*.html' ] )
+const getHTML = () => {
+  return src( [ `${Path.Src}*.html` ] )
     .pipe( fileInclude( {
       prefix: '@',
       basepath: '@file'
     } ).on( "error", notify.onError() ) )
-    .pipe( dest( './build' ) )
-    .pipe( beautifyHTML( {
+    .pipe( gulpIf( isProd, beautifyHTML( {
       indentSize: 2
-    } ) )
-    .pipe( dest( './build' ) )
-    .pipe( browserSync.stream() );
-}
+    } ) ) )
+    .pipe( dest( Path.Build ) )
+    .pipe( gulpIf( !isProd, browserSync.stream() ) );
+};
 
 const getStyles = () => {
-  return src( './src/style/**/*.scss' )
-    .pipe( sourcemaps.init() )
+  return src( `${Path.Src}${Path.Style}**/*.scss` )
     .pipe( sass().on( "error", notify.onError() ) )
     .pipe( postcss( [
       autoprefixer( {
         cascade: false,
       } )
     ] ) )
-    .pipe( sourcemaps.write( '.' ) )
-    .pipe( dest( './build/style' ) )
-    .pipe( browserSync.stream() );
+    .pipe( gulpIf( isProd, csscomb() ) )
+    .pipe( dest( `${Path.Build}${Path.Style}` ) )
+    .pipe( gulpIf( !isProd, browserSync.stream() ) );
 };
 
-const getProdStyles = () => {
-  return src( './src/style/**/*.scss' )
-    .pipe( sass().on( "error", notify.onError() ) )
-    .pipe( postcss( [
-      autoprefixer( {
-        cascade: false,
-      } )
-    ] ) )
-    .pipe( dest( './build/style' ) )
-    .pipe( csscomb() )
-    .pipe( dest( './build/style' ) )
-};
-
-const minifyVendorBundle = () => {
-  return src( './build/style/vendor-bundle.css' )
+const minifyVendorStyles = () => {
+  return src( `${Path.Build}${Path.Style}vendor-bundle.css` )
     .pipe( cleanCSS( {
       level: 2
     } ) )
-    .pipe( dest( './build/style' ) )
+    .pipe( dest( `${Path.Build}${Path.Style}` ) )
 };
 
 const getScripts = () => {
-  src( './src/vendor/**/*.js' )
+  return src( `${Path.Src}${Path.JS}**/*.js` )
+    .pipe( dest( `${Path.Build}${Path.JS}` ) )
+    .pipe( gulpIf( !isProd, browserSync.stream() ) );
+}
+
+const getVendorScripts = () => {
+  return src( `${Path.Src}${Path.Vendor}**/*.js` )
     .pipe( concat( 'vendor-bundle.js' ) )
-    .pipe( dest( './build/js' ) )
-  return src( './src/js/**' )
-    .pipe( dest( './build/js' ) )
-    .pipe( browserSync.stream() );
+    .pipe( dest( `${Path.Build}${Path.JS}` ) )
+    .pipe( gulpIf( !isProd, browserSync.stream() ) );
 }
 
 const getAssets = () => {
-  return src( './src/assets/**' )
-    .pipe( dest( './build' ) )
+  return src( `${Path.Src}${Path.Assets}/**` )
+    .pipe( dest( `${Path.Build}` ) )
 }
 
 const getImages = () => {
-  return src( IMAGE_FILE_TYPES )
-    .pipe( dest( './build/img' ) )
+  return src( RASTER_FILES )
+    .pipe( gulpIf( isProd, squoosh() ) )
+    .pipe( dest( `${Path.Build}${Path.Img}` ) )
 };
 
-const getProdImages = () => {
-  return src( IMAGE_FILE_TYPES )
-    .pipe( imagemin( [
-      imagemin.optipng( {
-        optimizationLevel: 3
-      } ),
-      imagemin.mozjpeg( {
-        progressive: true
-      } ),
-      imagemin.svgo()
-    ] ) )
-    .pipe( dest( './build/img' ) )
+const getSVG = () => {
+  return src( VECTOR_FILES )
+    .pipe( svgmin() )
+    .pipe( dest( `${Path.Build}${Path.Img}` ) )
 };
 
 const getSprite = () => {
-  return src( './src/img/sprite/**.svg' )
+  return src( `${Path.Src}${Path.Img}sprite/**.svg` )
+    .pipe( svgmin() )
     .pipe( svgSprite( {
       mode: {
         stack: {
@@ -126,35 +122,62 @@ const getSprite = () => {
         }
       },
     } ) )
-    .pipe( dest( './build/img' ) );
+    .pipe( dest( `${Path.Build}${Path.Img}` ) );
 }
 
 const watchFiles = () => {
   browserSync.init( {
     server: {
-      baseDir: "./build"
+      baseDir: `${Path.Build}`
     },
     notify: false,
     ui: false,
   } );
 
-  watch( './src/assets/**', getAssets );
-  watch( './src/*.html', htmlInclude );
-  watch( './src/html/**/*.html', htmlInclude );
-  watch( './src/vendor/**/*.css', getStyles );
-  watch( './src/vendor/**/*.js', getScripts );
-  watch( './src/style/**/*.scss', getStyles );
-  watch( './src/js/**/*.js', getScripts );
-  watch( './src/img/*.{jpg,jpeg,png,svg,webp}', getImages );
-  watch( './src/img/**/*.{jpg,jpeg,png,webp}', getImages );
-  watch( './src/img/svg-folders/**/*.svg', getImages );
-  watch( './src/img/sprite/**.svg', getSprite );
+  watch( [ `${Path.Src}*.html`, `${Path.Src}${Path.HTML}**/*.html` ], getHTML );
+  watch( [ `${Path.Src}${Path.Style}**/*.scss`, `${Path.Src}${Path.Vendor}**/*.css` ], getStyles );
+  watch( `${Path.Src}${Path.JS}**/*.js`, getScripts );
+  watch( `${Path.Src}${Path.Vendor}**/*.js`, getVendorScripts );
+  watch( `${Path.Src}${Path.Assets}**`, getAssets );
+  watch( RASTER_FILES, getImages );
+  watch( VECTOR_FILES, getSVG );
+  watch( `${Path.Src}${Path.Img}sprite/**.svg`, getSprite );
 }
 
-exports.default = series( cleanBuildFolder, htmlInclude, getScripts, getStyles, getAssets, getImages, getSprite, watchFiles );
+const toProd = ( done ) => {
+  isProd = true;
+  done();
+};
 
-exports.build = series( cleanBuildFolder, htmlInclude, getScripts, getProdStyles, minifyVendorBundle, getAssets, getProdImages, getSprite );
+const buildDevelopment = series(
+  cleanBuildFolder,
+  getHTML,
+  getStyles,
+  getScripts,
+  getVendorScripts,
+  getAssets,
+  getImages,
+  getSVG,
+  getSprite,
+  watchFiles
+);
 
-exports.server = series( watchFiles );
+const buildProduction = series(
+  cleanBuildFolder,
+  toProd,
+  getHTML,
+  getStyles,
+  minifyVendorStyles,
+  getScripts,
+  getVendorScripts,
+  getAssets,
+  getImages,
+  getSVG,
+  getSprite
+);
 
-exports.clean = series( cleanBuildFolder );
+export default buildDevelopment;
+export {
+  cleanBuildFolder as clean,
+  buildProduction as build
+};
