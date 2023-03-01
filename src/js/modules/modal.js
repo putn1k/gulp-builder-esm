@@ -9,8 +9,7 @@ const initModal = ( name = simpleModal, handler = 'data-hystmodal' ) => {
   name.init();
 };
 
-initModal();
-
 export {
   simpleModal,
+  initModal
 };

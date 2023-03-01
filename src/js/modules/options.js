@@ -10,6 +10,9 @@ export const Options = {
     closeOnEsc: true,
     backscroll: true,
   },
+  Mask: {
+    bodyMask: ' (___) ___ __ __',
+  },
   ValidationErrors: {
     errorFieldCssClass: 'invalid',
     errorLabelStyle: {

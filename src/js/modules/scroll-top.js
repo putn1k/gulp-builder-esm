@@ -2,7 +2,7 @@ import {
   Options,
 } from './options.js';
 
-const initScrollTop = () => {
+export const initScrollTop = () => {
   const scrollTopNode = document.querySelector( '#scroll-top' );
   const targetNode = document.querySelector( '#site-top' );
   if ( !scrollTopNode || !targetNode ) return;
@@ -18,5 +18,3 @@ const initScrollTop = () => {
   };
   new IntersectionObserver( cb, Options.Observer.ScrollTop ).observe( targetNode );
 };
-
-initScrollTop();

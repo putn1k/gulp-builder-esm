@@ -6,11 +6,7 @@ import {
   sendData,
 } from './send-data.js';
 
-new JustPhoneMask( {
-  bodyMask: ' (___) ___ __ __',
-} );
-
-const validateForms = () => {
+export const validateForms = () => {
   const forms = document.querySelectorAll( 'form[data-validate]' );
 
   if ( forms.length < 1 ) return;
@@ -88,5 +84,3 @@ const validateForms = () => {
     } );
   } );
 };
-
-validateForms();
