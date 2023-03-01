@@ -20,6 +20,7 @@ const {
   src,
   dest,
   series,
+  parallel,
   watch
 } = gulp;
 const sass = gulpSass( dartSass );
@@ -82,7 +83,7 @@ const minifyVendorStyles = () => {
     .pipe( dest( `${Path.Build}${Path.Style}` ) )
 };
 
-const getScripts = () => {
+const getUserScripts = () => {
   return src( `${Path.Src}${Path.JS}**/*.js` )
     .pipe( dest( `${Path.Build}${Path.JS}` ) )
     .pipe( gulpIf( !isProd, browserSync.stream() ) );
@@ -100,13 +101,13 @@ const getAssets = () => {
     .pipe( dest( `${Path.Build}` ) )
 }
 
-const getImages = () => {
+const getRaster = () => {
   return src( RASTER_FILES )
     .pipe( gulpIf( isProd, squoosh() ) )
     .pipe( dest( `${Path.Build}${Path.Img}` ) )
 };
 
-const getSVG = () => {
+const getVector = () => {
   return src( VECTOR_FILES )
     .pipe( svgmin() )
     .pipe( dest( `${Path.Build}${Path.Img}` ) )
@@ -139,8 +140,8 @@ const watchFiles = () => {
   watch( `${Path.Src}${Path.JS}**/*.js`, getScripts );
   watch( `${Path.Src}${Path.Vendor}**/*.js`, getVendorScripts );
   watch( `${Path.Src}${Path.Assets}**`, getAssets );
-  watch( RASTER_FILES, getImages );
-  watch( VECTOR_FILES, getSVG );
+  watch( RASTER_FILES, getRaster );
+  watch( VECTOR_FILES, getVector );
   watch( `${Path.Src}${Path.Img}sprite/**.svg`, getSprite );
 }
 
@@ -149,31 +150,36 @@ const toProd = ( done ) => {
   done();
 };
 
-const buildDevelopment = series(
-  cleanBuildFolder,
+const getScripts = series(
+  getUserScripts,
+  getVendorScripts,
+);
+
+const getImages = series(
+  getRaster,
+  getVector,
+  getSprite
+);
+
+const processBuild = parallel(
   getHTML,
   getStyles,
   getScripts,
-  getVendorScripts,
-  getAssets,
   getImages,
-  getSVG,
-  getSprite,
+  getAssets
+)
+
+const buildDevelopment = series(
+  cleanBuildFolder,
+  processBuild,
   watchFiles
 );
 
 const buildProduction = series(
-  cleanBuildFolder,
   toProd,
-  getHTML,
-  getStyles,
-  minifyVendorStyles,
-  getScripts,
-  getVendorScripts,
-  getAssets,
-  getImages,
-  getSVG,
-  getSprite
+  cleanBuildFolder,
+  processBuild,
+  minifyVendorStyles
 );
 
 export default buildDevelopment;
