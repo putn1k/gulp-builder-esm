@@ -1,31 +1,21 @@
 .anim-fade-down {
-  animation-name: fade-down;
-  animation-fill-mode: forwards;
-  animation-duration: .2s;
+  @include anim-fade(fade-down, .2s);
 }
 
 .anim-fade-up {
-  animation-name: fade-up;
-  animation-fill-mode: forwards;
-  animation-duration: .2s;
+  @include anim-fade(fade-up, .2s);
 }
 
 .anim-fade-left {
-  animation-name: fade-left;
-  animation-fill-mode: forwards;
-  animation-duration: .2s;
+  @include anim-fade(fade-left, .2s);
 }
 
 .anim-fade-right {
-  animation-name: fade-right;
-  animation-fill-mode: forwards;
-  animation-duration: .2s;
+  @include anim-fade(fade-right, .2s);
 }
 
 .anim-fade-in {
-  animation-name: fade-in;
-  animation-fill-mode: forwards;
-  animation-duration: .2s;
+  @include anim-fade(fade-in, .2s);
 }
 
 @keyframes fade-down {
