@@ -1,0 +1,38 @@
+@mixin visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  border: 0;
+  padding: 0;
+  white-space: nowrap;
+  clip-path: inset(100%);
+  clip: rect(0 0 0 0);
+  overflow: hidden;
+}
+
+@mixin indent-reset {
+  margin: 0;
+  padding: 0;
+}
+
+@mixin list-reset {
+  @include indent-reset;
+
+  list-style: none;
+}
+
+@mixin btn-reset {
+  padding: 0;
+  color: inherit;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+@mixin anim-fade($animation-name, $animation-time) {
+  animation-name: $animation-name;
+  animation-fill-mode: forwards;
+  animation-duration: $animation-time;
+}
