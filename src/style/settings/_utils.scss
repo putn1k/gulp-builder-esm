@@ -13,6 +13,8 @@ input[type="checkbox"].visually-hidden {
   max-width: 540px;
 
   @include media-min ($md) {
+    padding-left: 0;
+    padding-right: 0;
     max-width: 690px;
   }
 
@@ -63,4 +65,8 @@ input[type="checkbox"].visually-hidden {
   &::-webkit-scrollbar-thumb {
     background-color: var(--scrollbar);
   }
+}
+
+.is-accent {
+  color: var(--accent);
 }
