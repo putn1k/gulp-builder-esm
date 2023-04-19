@@ -15,6 +15,7 @@ export const validateForms = () => {
     const formID = `#${form.id}`;
     const validationRules = new JustValidate( formID, Options.ValidationErrors );
     const requiredFields = document.querySelectorAll( `${formID} [required]` );
+    new JustPhoneMask( Options.Mask );
 
     if ( requiredFields.length < 1 ) return;
 

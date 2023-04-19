@@ -22,13 +22,7 @@ import {
 // все скрипты должны быть в обработчике 'DOMContentLoaded', но не все в 'load'
 // в load следует добавить скрипты, не участвующие в работе первого экрана
 document.addEventListener( 'DOMContentLoaded', () => {
-  // Settings
-  // ---------------------------------
   iosVhFix();
-  new JustPhoneMask( Options.Mask.bodyMask );
-
-  // Modules
-  // ---------------------------------
 
   window.addEventListener( 'load', () => {
     initModal();
