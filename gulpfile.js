@@ -56,7 +56,7 @@ const getHTML = () => {
       basepath: '@file'
     } ).on( "error", notify.onError() ) )
     .pipe( gulpIf( isProd, beautifyHTML( {
-      indentSize: 2
+      'indent_size': 2
     } ) ) )
     .pipe( dest( Path.Build ) )
     .pipe( gulpIf( !isProd, browserSync.stream() ) );
