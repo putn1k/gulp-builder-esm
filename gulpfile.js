@@ -5,7 +5,7 @@ import {
 import concat from 'gulp-concat';
 import gulpIf from 'gulp-if';
 import notify from 'gulp-notify';
-import bs from 'browser-sync';
+import browserSync from 'browser-sync';
 import fileInclude from 'gulp-file-include';
 import beautifyHTML from 'gulp-html-beautify';
 import dartSass from 'sass';
@@ -17,6 +17,9 @@ import csscomb from "gulp-csscomb";
 import squoosh from 'gulp-libsquoosh';
 import svgmin from 'gulp-svgmin';
 import svgSprite from 'gulp-svg-sprite';
+import webpackStream from 'webpack-stream';
+import CircularDependencyPlugin from 'circular-dependency-plugin';
+import DuplicatePackageCheckerPlugin from 'duplicate-package-checker-webpack-plugin';
 
 const {
   src,
@@ -26,7 +29,7 @@ const {
   watch
 } = gulp;
 const sass = gulpSass( dartSass );
-const browserSync = bs.create();
+const server = browserSync.create();
 const Path = {
   Src: './src/',
   Build: './build/',
@@ -61,7 +64,7 @@ const getHTML = () => {
       'indent_size': 2
     } ) ) )
     .pipe( dest( Path.Build ) )
-    .pipe( gulpIf( !isProd, browserSync.stream() ) );
+
 };
 
 const getStyles = () => {
@@ -74,7 +77,6 @@ const getStyles = () => {
     ] ) )
     .pipe( gulpIf( isProd, csscomb() ) )
     .pipe( dest( `${Path.Build}${Path.Style}` ) )
-    .pipe( gulpIf( !isProd, browserSync.stream() ) );
 };
 
 const minifyVendorStyles = () => {
@@ -86,16 +88,37 @@ const minifyVendorStyles = () => {
 };
 
 const getUserScripts = () => {
-  return src( `${Path.Src}${Path.JS}**/*.js` )
-    .pipe( dest( `${Path.Build}${Path.JS}` ) )
-    .pipe( gulpIf( !isProd, browserSync.stream() ) );
+  return src( `${Path.Src}${Path.JS}main.js` )
+    .pipe( webpackStream( {
+      mode: isProd ? 'production' : 'development',
+      output: {
+        filename: 'main.js',
+      },
+      devtool: !isProd ? 'source-map' : false,
+      module: {
+        rules: [ {
+          test: /\.js$/,
+          exclude: [ /node_modules/, /vendor/ ],
+          use: {
+            loader: 'babel-loader',
+            options: {
+              presets: [ '@babel/preset-env' ],
+            },
+          },
+        } ],
+      },
+      plugins: [
+        new DuplicatePackageCheckerPlugin(),
+        new CircularDependencyPlugin()
+      ],
+    } ) )
+    .pipe( dest( `${Path.Build}${Path.JS}` ) );
 }
 
 const getVendorScripts = () => {
   return src( `${Path.Src}${Path.Vendor}**/*.js` )
     .pipe( concat( 'vendor-bundle.js' ) )
     .pipe( dest( `${Path.Build}${Path.JS}` ) )
-    .pipe( gulpIf( !isProd, browserSync.stream() ) );
 }
 
 const getAssets = () => {
@@ -129,7 +152,7 @@ const getSprite = () => {
 }
 
 const watchFiles = () => {
-  browserSync.init( {
+  server.init( {
     server: {
       baseDir: `${Path.Build}`
     },
@@ -137,20 +160,27 @@ const watchFiles = () => {
     ui: false,
   } );
 
-  watch( [ `${Path.Src}*.html`, `${Path.Src}${Path.HTML}**/*.html` ], getHTML );
-  watch( [ `${Path.Src}${Path.Style}**/*.scss`, `${Path.Src}${Path.Vendor}**/*.css` ], getStyles );
-  watch( `${Path.Src}${Path.JS}**/*.js`, getScripts );
-  watch( `${Path.Src}${Path.Vendor}**/*.js`, getVendorScripts );
-  watch( `${Path.Src}${Path.Assets}**`, getAssets );
-  watch( RASTER_FILES, getRaster );
-  watch( VECTOR_FILES, getVector );
-  watch( `${Path.Src}${Path.Img}sprite/**.svg`, getSprite );
+  watch( [ `${Path.Src}*.html`, `${Path.Src}${Path.HTML}**/*.html` ], series( getHTML, reload ) );
+  watch( [ `${Path.Src}${Path.Style}**/*.scss`, `${Path.Src}${Path.Vendor}**/*.css` ], series( getStyles, stream ) );
+  watch( `${Path.Src}${Path.JS}**/*.js`, series( getScripts, reload ) );
+  watch( `${Path.Src}${Path.Vendor}**/*.js`, series( getVendorScripts, reload ) );
+  watch( `${Path.Src}${Path.Assets}**`, series( getAssets, reload ) );
+  watch( RASTER_FILES, series( getRaster, reload ) );
+  watch( VECTOR_FILES, series( getVector, reload ) );
+  watch( `${Path.Src}${Path.Img}sprite/**.svg`, series( getSprite, reload ) );
 }
 
 const toProd = ( done ) => {
   isProd = true;
   done();
 };
+
+const reload = ( done ) => {
+  server.reload();
+  done();
+};
+
+const stream = () => getStyles().pipe( server.stream() );
 
 const getScripts = series(
   getUserScripts,

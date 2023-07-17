@@ -9,6 +9,18 @@
     "selector-not-notation": "simple",
     "selector-class-pattern": null,
     "no-descending-specificity": null,
+    "property-no-vendor-prefix": [
+      true,
+      {
+        "ignoreProperties": "font-feature-settings"
+      }
+    ],
+    "declaration-block-no-redundant-longhand-properties": [
+      true,
+      {
+        "ignoreShorthands": [ "/flex/" ]
+      }
+    ],
     "value-keyword-case": [ "lower", {
       "ignoreKeywords": [ "currentColor" ]
     } ]
