@@ -21,8 +21,8 @@ export const validateForms = () => {
 
     requiredFields.forEach( ( input ) => {
       switch ( input.dataset.validate ) {
-        case 'text':
-          validationRules.addField( `${formID} [data-validate="text"]`, [ {
+        case 'name':
+          validationRules.addField( `${formID} [data-validate="name"]`, [ {
             rule: 'required',
             value: true,
             errorMessage: 'Поле обязательно для заполнения'

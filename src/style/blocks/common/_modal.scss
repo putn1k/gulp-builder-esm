@@ -1,8 +1,11 @@
 .modal {
   position: relative;
-  margin: 15px;
+  margin: 0 auto;
+  padding: 24px;
   width: calc(100% - 30px);
-  max-width: 330px;
+  max-width: 360px;
+  color: var(--main-text);
+  background-color: var(--main-bg);
 
   &__close {
     position: absolute;
@@ -11,6 +14,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    color: var(--main-text);
     width: 32px;
     height: 32px;
     cursor: pointer;

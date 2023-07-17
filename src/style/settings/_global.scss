@@ -10,16 +10,17 @@ html {
 
 body {
   min-width: 360px;
-  color: var(--black);
-  background-color: var(--white);
+  color: var(--main-text);
+  background-color: var(--main-bg);
+  -webkit-tap-highlight-color: transparent;
 }
 
 img {
   max-width: 100%;
   height: auto;
+  object-fit: cover;
 }
 
 a {
   color: var(--accent);
-  -webkit-tap-highlight-color: transparent;
 }

@@ -1,8 +1,14 @@
 :root {
   --white: #FFFFFF;
-  --black: #2F1A0E;
-  --accent: #F3770F;
-  --error: rgba(227, 6, 19, 0.2);
+  --black: #070707;
+  --red: #ff2424;
+  --blue: #1AA6E2;
+
+  // colors cascade
+  --main-text: var(--black);
+  --main-bg: var(--white);
+  --accent: var(--blue);
+  --error: var(--red);
 }
 
 $sm: 576px;

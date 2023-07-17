@@ -1,5 +1,7 @@
 import gulp from 'gulp';
-import del from 'del';
+import {
+  deleteAsync
+} from 'del';
 import concat from 'gulp-concat';
 import gulpIf from 'gulp-if';
 import notify from 'gulp-notify';
@@ -47,7 +49,7 @@ const VECTOR_FILES = [
 ];
 let isProd = false;
 
-const cleanBuildFolder = () => del( [ `${Path.Build}*` ] );
+const cleanBuildFolder = () => deleteAsync( [ `${Path.Build}*` ] );
 
 const getHTML = () => {
   return src( [ `${Path.Src}*.html` ] )

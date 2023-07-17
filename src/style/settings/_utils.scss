@@ -13,17 +13,15 @@ input[type="checkbox"].visually-hidden {
   max-width: 540px;
 
   @include media-min ($md) {
-    padding-left: 0;
-    padding-right: 0;
-    max-width: 690px;
+    max-width: 720px;
   }
 
   @include media-min ($lg) {
-    max-width: 940px;
+    max-width: 970px;
   }
 
   @include media-min ($xl) {
-    max-width: 1110px;
+    max-width: 1140px;
   }
 }
 
@@ -31,8 +29,12 @@ input[type="checkbox"].visually-hidden {
   outline: none;
 }
 
-.is-open-menu {
+.is-open-modal {
   overflow: hidden;
+
+  @include media-min ($xl) {
+    overflow: unset;
+  }
 }
 
 .indent-reset {
@@ -47,11 +49,6 @@ input[type="checkbox"].visually-hidden {
   @include btn-reset;
 }
 
-.lnum {
-  font-variant-numeric: lining-nums;
-  font-feature-settings: "lnum";
-}
-
 .custom-scroll {
   scrollbar-color: var(--scrollbar-thumb) var(--scrollbar);
   scrollbar-width: thin;
@@ -59,14 +56,10 @@ input[type="checkbox"].visually-hidden {
   &::-webkit-scrollbar {
     width: 4px;
     height: 4px;
-    background-color: var(--scrollbar-thumb);
+    background-color: var(--scrollbar);
   }
 
   &::-webkit-scrollbar-thumb {
-    background-color: var(--scrollbar);
+    background-color: var(--scrollbar-thumb);
   }
-}
-
-.is-accent {
-  color: var(--accent);
 }

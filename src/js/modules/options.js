@@ -14,9 +14,9 @@ export const Options = {
     bodyMask: ' (___) ___ __ __',
   },
   ValidationErrors: {
-    errorFieldCssClass: 'invalid',
+    errorFieldCssClass: 'is-invalid',
     errorLabelStyle: {
-      color: '#CF4D4D',
+      color: 'var(--error)',
       marginTop: '6px',
       fontSize: '12px',
       textAlign: 'left',
