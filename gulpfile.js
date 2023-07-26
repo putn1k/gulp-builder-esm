@@ -36,7 +36,6 @@ const syncServer = () => {
     index: 'sitemap.html',
     notify: false,
     ui: false,
-    open: false
   } );
   watch( [ './src/*.html', './src/html/**/*.html' ], series( compileHTML, refreshServer ) );
   watch( './src/style/**/*.scss', series( compileCSS, streamServer ) );
