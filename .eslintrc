@@ -13,6 +13,7 @@
     "SmoothScroll": "readonly",
     "Swiper": "readonly",
     "JustValidate": "readonly",
+    "JustBurger": "readonly",
     "JustPhoneMask": "readonly"
   },
   "extends": "eslint:recommended",

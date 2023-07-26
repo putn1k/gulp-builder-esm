@@ -1,8 +1,8 @@
 {
   "name": "gulp-builder-esm",
-  "version": "2.1.0",
+  "version": "3.1.0",
   "description": "Сборщик проектов на gulp с ES6 модулями",
-  "main": "gulpfile.js",
+  "private": true,
   "type": "module",
   "repository": {
     "type": "git",
@@ -15,19 +15,23 @@
   },
   "homepage": "https://github.com/putn1k/gulp-builder-esm#readme",
   "scripts": {
-    "start": "gulp",
-    "build": "npm run lint && gulp build",
+    "start": "cross-env NODE_ENV=development gulp",
+    "prod": "cross-env NODE_ENV=production gulp prod",
+    "clean": "gulp clean",
+    "build": "npm run lint && npm run prod",
     "lint": "npm run stylelint && npm run eslint",
     "eslint": "eslint src/js/",
     "stylelint": "stylelint src/style/**/*.scss"
   },
   "devDependencies": {
     "browser-sync": "2.27.10",
+    "cross-env": "7.0.3",
     "del": "7.0.0",
     "eslint": "8.15.0",
     "gulp": "4.0.2",
     "gulp-autoprefixer": "8.0.0",
     "gulp-clean-css": "4.3.0",
+    "gulp-cli": "2.3.0",
     "gulp-concat": "2.6.1",
     "gulp-csscomb": "3.1.0",
     "gulp-file-include": "2.3.0",
@@ -42,9 +46,6 @@
     "sass": "1.55.0",
     "stylelint": "15.2.0",
     "stylelint-config-standard-scss": "7.0.1"
-  },
-  "dependencies": {
-    "gulp-cli": "^2.3.0"
   },
   "browserslist": [
     "defaults",
