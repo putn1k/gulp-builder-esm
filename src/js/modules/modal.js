@@ -1,15 +1,18 @@
 import {
-  Options,
-} from './options.js';
+  modalConfig,
+} from './configs.js';
 
-const simpleModal = new HystModal( Options.Modal );
+import {
+  initModal,
+} from './utils.js';
 
-const initModal = ( name = simpleModal, handler = 'data-hystmodal' ) => {
-  name.config.linkAttributeName = handler;
-  name.init();
+const simpleModal = new HystModal( modalConfig );
+
+const initModals = () => {
+  initModal( simpleModal );
 };
 
 export {
   simpleModal,
-  initModal
+  initModals,
 };

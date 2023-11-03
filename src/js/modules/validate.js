@@ -1,10 +1,28 @@
 import {
-  Options,
-} from './options.js';
+  validateConfig,
+  requestsConfig
+} from './configs.js';
 
 import {
   sendData,
-} from './send-data.js';
+} from './utils.js';
+
+import {
+  simpleModal,
+} from './modal.js';
+
+const justValidateConfig = validateConfig.justValidate;
+
+const isSendOk = () => {
+  simpleModal.open( '#send-ok-modal' );
+};
+
+const isSendError = ( target ) => {
+  target.classList.add( justValidateConfig.errorFormClass );
+  setTimeout( () => {
+    target.classList.remove( justValidateConfig.errorFormClass );
+  }, validateConfig.errorTimeout );
+};
 
 export const validateForms = () => {
   const forms = document.querySelectorAll( 'form[data-validate]' );
@@ -13,9 +31,9 @@ export const validateForms = () => {
 
   forms.forEach( ( form ) => {
     const formID = `#${form.id}`;
-    const validationRules = new JustValidate( formID, Options.ValidationErrors );
+    const validationRules = new JustValidate( formID, justValidateConfig );
     const requiredFields = document.querySelectorAll( `${formID} [required]` );
-    new JustPhoneMask( Options.Mask );
+    new JustPhoneMask( validateConfig.mask );
 
     if ( requiredFields.length < 1 ) return;
 
@@ -81,7 +99,7 @@ export const validateForms = () => {
       }
     } );
     validationRules.onSuccess( ( evt ) => {
-      sendData( evt );
+      sendData( evt, requestsConfig.HandlerURL, isSendOk, isSendError );
     } );
   } );
 };

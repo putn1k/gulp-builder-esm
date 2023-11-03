@@ -1,12 +1,13 @@
 import {
-  Options,
-} from './options.js';
+  smoothScrollConfig,
+  observerConfig,
+} from './configs.js';
 
 export const initScrollTop = () => {
   const scrollTopNode = document.querySelector( '#scroll-top' );
   const targetNode = document.querySelector( '#site-top' );
   if ( !scrollTopNode || !targetNode ) return;
-  new SmoothScroll( 'a[href*="#"]', Options.SmoothScroll );
+  new SmoothScroll( 'a[href*="#"]', smoothScrollConfig );
   const cb = ( entries ) => {
     entries.forEach( ( entry ) => {
       if ( !entry.isIntersecting ) {
@@ -16,5 +17,5 @@ export const initScrollTop = () => {
       }
     } );
   };
-  new IntersectionObserver( cb, Options.Observer.ScrollTop ).observe( targetNode );
+  new IntersectionObserver( cb, observerConfig.scrollTop ).observe( targetNode );
 };

@@ -1,30 +1,30 @@
 import {
-  Options,
-} from './modules/options.js';
-
-import {
   iosVhFix,
-  initSlider
 } from './modules/utils.js';
 
 import {
-  initModal
+  validateForms,
+} from './modules/validate.js';
+
+import {
+  initModals,
 } from './modules/modal.js';
 
 import {
-  initScrollTop
-} from './modules/scroll-top.js';
+  initSliders,
+} from './modules/slider.js';
 
 import {
-  validateForms
-} from './modules/validate.js';
+  initScrollTop,
+} from './modules/scroll-top.js';
 
 document.addEventListener( 'DOMContentLoaded', () => {
   iosVhFix();
+
   window.addEventListener( 'load', () => {
-    initModal();
-    initSlider( '.class', Options.Swiper.Name );
-    initScrollTop();
     validateForms();
+    initModals();
+    initSliders();
+    initScrollTop();
   } );
 } );

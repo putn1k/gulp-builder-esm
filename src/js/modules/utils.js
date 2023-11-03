@@ -1,50 +1,6 @@
-const debounce = ( cb, delay ) => {
-  let timer;
-
-  return function( ...args ) {
-    clearTimeout( timer );
-    timer = setTimeout( () => {
-      cb.apply( this, args );
-    }, delay );
-  };
-};
-
-const throttle = ( cb, delay ) => {
-  let isWaiting = false;
-  let savedThis = null;
-  let savedArgs = null;
-
-  return function wrapper( ...args ) {
-    if ( isWaiting ) {
-      savedThis = this;
-      savedArgs = args;
-      return;
-    }
-
-    cb.apply( this, args );
-    isWaiting = true;
-    setTimeout( () => {
-      isWaiting = false;
-      if ( savedThis ) {
-        wrapper.apply( savedThis, savedArgs );
-        savedThis = null;
-        savedArgs = null;
-      }
-    }, delay );
-  };
-};
-
-const disableSubmitBtn = ( form ) => {
-  form.querySelector( '[type="submit"]' ).setAttribute( 'disabled', 'disabled' );
-};
-
-const enableSubmitBtn = ( form ) => {
-  form.querySelector( '[type="submit"]' ).removeAttribute( 'disabled' );
-};
-
-const isEscKey = ( evt ) => evt.key === 'Escape';
-
-const addLeadZero = ( number ) => ( number < 10 ) ? `0${number}` : number;
+import {
+  sliderConfig
+} from './configs.js';
 
 const iosChecker = () => {
   return [
@@ -74,18 +30,67 @@ const iosVhFix = () => {
   }
 };
 
-const initSlider = ( selector, options ) => {
-  if ( !document.querySelector( selector ) ) return;
-  return new Swiper( document.querySelector( selector ), options );
+const disableSubmitBtn = ( form ) => {
+  if ( !form.querySelector( '[type="submit"]' ) ) return;
+  form.querySelector( '[type="submit"]' ).setAttribute( 'disabled', 'disabled' );
+};
+
+const enableSubmitBtn = ( form ) => {
+  if ( !form.querySelector( '[type="submit"]' ) ) return;
+  form.querySelector( '[type="submit"]' ).removeAttribute( 'disabled' );
+};
+
+const isEscKey = ( evt ) => evt.key === 'Escape';
+
+const initModal = ( name, handler = 'data-hystmodal' ) => {
+  name.config.linkAttributeName = handler;
+  name.init();
+};
+
+const initSlider = ( name, options = {}, isSelector = true ) => {
+  const defaultConfig = Object.assign( {}, sliderConfig.default );
+  const customConfig = Object.assign( defaultConfig, options );
+
+  if ( isSelector ) {
+    if ( !document.querySelector( name ) ) return;
+    return new Swiper( document.querySelector( name ), customConfig );
+  } else {
+    return new Swiper( name, customConfig );
+  }
+};
+
+const isOpenModal = () => document.documentElement.classList.contains( 'hystmodal__opened' );
+
+const sendData = ( evt, url, isOk, isError ) => {
+  const errorNode = isOpenModal() ?
+    evt.target.closest( '.hystmodal__window' ) :
+    evt.target;
+
+  disableSubmitBtn( evt.target );
+  fetch( url, {
+      method: 'POST',
+      body: new FormData( evt.target )
+    } )
+    .then( ( data ) => {
+      if ( data.ok ) {
+        isOk();
+        evt.target.reset();
+      } else {
+        isError( errorNode );
+      }
+    } )
+    .catch( () => {
+      isError( errorNode );
+    } )
+    .finally( () => {
+      enableSubmitBtn( evt.target );
+    } );
 };
 
 export {
-  debounce,
-  throttle,
-  disableSubmitBtn,
-  enableSubmitBtn,
-  isEscKey,
-  addLeadZero,
   iosVhFix,
-  initSlider
+  isEscKey,
+  initSlider,
+  sendData,
+  initModal,
 };
