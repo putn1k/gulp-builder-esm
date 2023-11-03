@@ -1,4 +1,4 @@
-# Сборщик проектов на Gulp с ES6 модулями
+# Сборщик проектов на Gulp с ES6 модулями (webpack-stream)
 
 > Версия / Version 3.1.1 <br>
 > Автор / Author [putn1k](https://github.com/putn1k/) <br>
