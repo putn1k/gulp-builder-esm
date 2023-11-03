@@ -3,7 +3,7 @@
 
 <head>
   @include('html/head/index.html')
-  <title>Главная</title>
+  <title>Страница</title>
 </head>
 
 <body class="indent-reset site">
@@ -12,8 +12,9 @@
   <div class="site__container">
     @include('html/header/index.html')
     <div class="site__content">
+      @include('html/common/breadcrumbs.html', {title: 'Пример тестовой страницы'})
       <main>
-        @include('html/main/index.html')
+        <!-- @include('html/page/index.html') -->
       </main>
     </div>
     @include('html/footer/index.html')
