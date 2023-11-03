@@ -23,6 +23,9 @@
     ],
     "value-keyword-case": [ "lower", {
       "ignoreKeywords": [ "currentColor" ]
+    } ],
+    "rule-empty-line-before": [ "always", {
+      "ignore": [ "first-nested" ]
     } ]
   }
 }

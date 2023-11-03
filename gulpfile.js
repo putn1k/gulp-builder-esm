@@ -33,7 +33,6 @@ const syncServer = () => {
     server: {
       baseDir: './build/'
     },
-    index: 'sitemap.html',
     notify: false,
     ui: false,
   } );
