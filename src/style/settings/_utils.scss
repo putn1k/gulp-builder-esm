@@ -4,32 +4,16 @@ input[type="checkbox"].visually-hidden {
   @include visually-hidden;
 }
 
-.container {
-  width: 100%;
-  margin-right: auto;
-  margin-left: auto;
-  padding-right: 15px;
-  padding-left: 15px;
-  max-width: 540px;
-
-  @include media-min ($md) {
-    max-width: 720px;
-  }
-
-  @include media-min ($lg) {
-    max-width: 970px;
-  }
-
-  @include media-min ($xl) {
-    max-width: 1140px;
-  }
+#site-top {
+  position: absolute;
+  top: 0;
 }
 
 .js-focus-visible :focus:not(.focus-visible) {
   outline: none;
 }
 
-.is-open-modal {
+.is-block-scroll {
   overflow: hidden;
 
   @include media-min ($xl) {
@@ -49,17 +33,10 @@ input[type="checkbox"].visually-hidden {
   @include btn-reset;
 }
 
+.shaked {
+  @include anim(shake, 0.6s);
+}
+
 .custom-scroll {
-  scrollbar-color: var(--scrollbar-thumb) var(--scrollbar);
-  scrollbar-width: thin;
-
-  &::-webkit-scrollbar {
-    width: 4px;
-    height: 4px;
-    background-color: var(--scrollbar);
-  }
-
-  &::-webkit-scrollbar-thumb {
-    background-color: var(--scrollbar-thumb);
-  }
+  @include custom-scroll;
 }

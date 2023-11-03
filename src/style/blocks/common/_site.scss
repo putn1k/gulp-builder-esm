@@ -11,6 +11,7 @@
 
   &__content {
     flex-grow: 1;
+    margin-top: var(--offset-top, 0);
   }
 
   &__footer {

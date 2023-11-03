@@ -1,3 +1,100 @@
-@import "./mixins/breakpoint";
-@import "./mixins/font-face";
-@import "./mixins/utils";
+@mixin media-min($screenWidth) {
+  @media (min-width: $screenWidth) {
+    @content;
+  }
+}
+
+@mixin media-max($screenWidth) {
+  @media (max-width: $screenWidth) {
+    @content;
+  }
+}
+
+@mixin font-face($font-family, $url, $weight, $style) {
+  @font-face {
+    font-family: "#{$font-family}";
+    src: url('../fonts/#{$url}.woff2') format("woff2");
+    font-weight: #{$weight};
+    font-display: swap;
+    font-style: $style;
+  }
+}
+
+@mixin set-font($fz, $lh, $fw) {
+  font-size: var(--text-fz, $fz);
+  line-height: var(--text-lh, $lh);
+  font-weight: var(--text-fw, $fw);
+}
+
+@mixin visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  border: 0;
+  padding: 0;
+  white-space: nowrap;
+  clip-path: inset(100%);
+  clip: rect(0 0 0 0);
+  overflow: hidden;
+}
+
+@mixin indent-reset {
+  margin: 0;
+  padding: 0;
+}
+
+@mixin list-reset {
+  @include indent-reset;
+
+  list-style: none;
+}
+
+@mixin btn-reset {
+  padding: 0;
+  color: inherit;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+@mixin anim($animation-name, $animation-time) {
+  animation-name: $animation-name;
+  animation-fill-mode: forwards;
+  animation-duration: $animation-time;
+}
+
+@mixin cms-text {
+  &>*:first-child {
+    margin-top: 0;
+  }
+
+  &>*:last-child {
+    margin-bottom: 0;
+  }
+}
+
+@mixin custom-scroll {
+  scrollbar-color: var(--scrollbar-thumb, #cccccc) var(--scrollbar, transparent);
+  scrollbar-width: thin;
+
+  &::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+    background-color: var(--scrollbar, transparent);
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: var(--scrollbar-thumb, #cccccc);
+    border-radius: 99em;
+  }
+}
+
+@mixin full-size {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+}

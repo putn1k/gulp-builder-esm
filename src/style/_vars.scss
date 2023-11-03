@@ -1,19 +1,33 @@
 :root {
   --white: #FFFFFF;
-  --black: #070707;
-  --red: #ff2424;
-  --blue: #1AA6E2;
+  --gray100: #1F2D33;
+  --gray70: #505565;
+  --gray50: #BDC1C2;
+  --gray10: #F3F5F6;
+  --red100: #BD0300;
+  --red40: #F56C69;
 
-  // colors cascade
-  --main-text: var(--black);
+  // other vars
+  --min-site-width: 360px;
+  --max-site-width: 1590px;
+  --b-radius: 4px;
+
+  // theme vars
+  --main-text: var(--gray100);
+  --main-text-inv: var(--white);
   --main-bg: var(--white);
-  --accent: var(--blue);
-  --error: var(--red);
+  --main-bg-inv: var(--gray70);
+  --accent: var(--red100);
+  --link-hover: var(--red40);
+  --btn-text: var(--white);
+  --btn-bg: var(--red100);
+  --border: var(--gray50);
+  --error: var(--red100);
 }
 
 $sm: 576px;
 $md: 768px;
 $lg: 992px;
 $xl: 1200px;
+$xxl: 1600px;
 $main-font: "Open Sans";
-$mobile-min-width: 360px;

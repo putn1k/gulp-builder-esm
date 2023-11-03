@@ -9,9 +9,7 @@ html {
 }
 
 body {
-  min-width: 360px;
-  color: var(--main-text);
-  background-color: var(--main-bg);
+  min-width: var(--min-site-width);
   -webkit-tap-highlight-color: transparent;
 }
 
@@ -23,4 +21,5 @@ img {
 
 a {
   color: var(--accent);
+  text-decoration-color: var(--link-line, transparent);
 }
