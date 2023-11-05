@@ -47,16 +47,18 @@ const initModal = ( name, handler = 'data-hystmodal' ) => {
   name.init();
 };
 
-const initSlider = ( name, options = {}, isSelector = true ) => {
+const initSlider = ( name, options = {} ) => {
   const defaultConfig = Object.assign( {}, sliderConfig.default );
   const customConfig = Object.assign( defaultConfig, options );
 
-  if ( isSelector ) {
-    if ( !document.querySelector( name ) ) return;
-    return new Swiper( document.querySelector( name ), customConfig );
-  } else {
-    return new Swiper( name, customConfig );
+  if ( typeof name === 'string' ) {
+    const sliderElement = document.querySelector( name );
+
+    if ( !sliderElement ) return;
+    return new Swiper( sliderElement, customConfig );
   }
+
+  return new Swiper( name, customConfig );
 };
 
 const isOpenModal = () => document.documentElement.classList.contains( 'hystmodal__opened' );
@@ -87,10 +89,41 @@ const sendData = ( evt, url, isOk, isError ) => {
     } );
 };
 
+const fadeOut = ( elem ) => {
+  if ( !elem ) return;
+
+  const FADE_TIMEOUT = 10;
+  const FADE_STEP = 0.05;
+  let targetNode;
+
+  if ( typeof elem === 'string' ) {
+    targetNode = document.querySelector( elem );
+  } else {
+    targetNode = elem;
+  }
+  targetNode.style.transition = 'opacity .05s ease';
+
+  const processFade = () => {
+    if ( !targetNode.style.opacity ) {
+      targetNode.style.opacity = 1;
+    }
+
+    if ( targetNode.style.opacity > 0 ) {
+      targetNode.style.opacity -= FADE_STEP;
+    } else {
+      clearInterval( fadeFn );
+      targetNode.style.display = 'none';
+    }
+  };
+
+  const fadeFn = setInterval( processFade, FADE_TIMEOUT );
+};
+
 export {
   iosVhFix,
   isEscKey,
   initSlider,
   sendData,
   initModal,
+  fadeOut
 };
