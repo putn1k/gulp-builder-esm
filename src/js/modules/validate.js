@@ -35,8 +35,6 @@ export const validateForms = () => {
     const requiredFields = document.querySelectorAll( `${formID} [required]` );
     new JustPhoneMask( validateConfig.mask );
 
-    if ( requiredFields.length < 1 ) return;
-
     requiredFields.forEach( ( input ) => {
       switch ( input.dataset.validate ) {
         case 'name':
@@ -99,7 +97,7 @@ export const validateForms = () => {
       }
     } );
     validationRules.onSuccess( ( evt ) => {
-      sendData( evt, requestsConfig.HandlerURL, isSendOk, isSendError );
+      sendData( evt, requestsConfig.handlerURL, isSendOk, isSendError );
     } );
   } );
 };
