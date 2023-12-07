@@ -75,7 +75,7 @@ const sendData = ( evt, url, isOk, isError ) => {
     } )
     .then( ( data ) => {
       if ( data.ok ) {
-        isOk();
+        isOk( evt.target );
         evt.target.reset();
       } else {
         isError( errorNode );
