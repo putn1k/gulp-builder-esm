@@ -1,6 +1,6 @@
 {
   "name": "gulp-builder-esm",
-  "version": "3.1.1",
+  "version": "3.2.0",
   "description": "Сборщик проектов на gulp с ES6 модулями",
   "private": true,
   "type": "module",
@@ -17,17 +17,23 @@
   "scripts": {
     "start": "cross-env NODE_ENV=development gulp",
     "prod": "cross-env NODE_ENV=production gulp prod",
-    "clean": "gulp clean",
-    "build": "npm run lint && npm run prod",
+    "minify": "cross-env NODE_ENV=minify gulp prod",
+    "prebuild": "npm run lint && npm run prod",
+    "build": "npm run lint && npm run minify",
     "lint": "npm run stylelint && npm run eslint",
     "eslint": "eslint src/js/",
     "stylelint": "stylelint src/style/**/*.scss",
+    "clean": "gulp clean",
     "deploy": "npm run prod && gh-pages -d build"
   },
   "devDependencies": {
+    "@babel/preset-env": "7.22.9",
+    "babel-loader": "9.1.3",
     "browser-sync": "2.27.10",
     "cross-env": "7.0.3",
+    "circular-dependency-plugin": "5.2.2",
     "del": "7.0.0",
+    "duplicate-package-checker-webpack-plugin": "3.0.0",
     "eslint": "8.15.0",
     "gh-pages": "6.0.0",
     "gulp": "4.0.2",
@@ -47,7 +53,9 @@
     "gulp-svgmin": "4.1.0",
     "sass": "1.55.0",
     "stylelint": "15.2.0",
-    "stylelint-config-standard-scss": "7.0.1"
+    "stylelint-config-standard-scss": "7.0.1",
+    "webpack": "5.88.1",
+    "webpack-stream": "7.0.0"
   },
   "browserslist": [
     "defaults",

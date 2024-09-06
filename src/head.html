@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+  @include('html/head/index.html')
+  <title>@title</title>
+</head>
+
+<body class="indent-reset site">
+  <div inert=""
+       id="site-top"></div>
+  <div class="site__container">
+    @include('html/header/index.html')
+    <main class="site__content@if(!context.home){ site__content--offset}">
+      @if(context.bc){
+      @include('html/common/breadcrumbs.html', {page: '@title', path: '@path'})
+      }

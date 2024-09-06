@@ -1,0 +1,36 @@
+.slider {
+  position: relative;
+  overflow: hidden;
+  opacity: 1;
+  transition: opacity 0.3s ease-in-out;
+
+  &:not(.swiper-initialized) {
+    opacity: 0;
+  }
+
+  &__wrapper {
+    box-sizing: border-box;
+  }
+}
+
+.slider-control {
+  color: var(--white-color);
+  background-color: var(--black-color);
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  pointer-events: auto;
+
+  &.swiper-button-lock {
+    display: none;
+  }
+
+  & svg {
+    width: 12px;
+    height: 12px;
+  }
+
+  @include media-min ($xl) {
+    transition: background-color 0.2s ease-in-out;
+  }
+}

@@ -30,14 +30,12 @@ const iosVhFix = () => {
   }
 };
 
-const disableSubmitBtn = ( form ) => {
-  if ( !form.querySelector( '[type="submit"]' ) ) return;
-  form.querySelector( '[type="submit"]' ).setAttribute( 'disabled', 'disabled' );
+const lockScroll = () => {
+  !document.documentElement.classList.contains( 'is-lock-scroll' ) ? document.documentElement.classList.add( 'is-lock-scroll' ) : '';
 };
 
-const enableSubmitBtn = ( form ) => {
-  if ( !form.querySelector( '[type="submit"]' ) ) return;
-  form.querySelector( '[type="submit"]' ).removeAttribute( 'disabled' );
+const unlockScroll = () => {
+  document.documentElement.classList.remove( 'is-lock-scroll' );
 };
 
 const isEscKey = ( evt ) => evt.key === 'Escape';
@@ -61,17 +59,24 @@ const initSlider = ( name, options = {} ) => {
   return new Swiper( name, customConfig );
 };
 
-const isOpenModal = () => document.documentElement.classList.contains( 'hystmodal__opened' );
+const disableSubmitBtn = ( form ) => {
+  if ( !form.querySelector( '[type="submit"]' ) ) return;
+  form.querySelector( '[type="submit"]' ).setAttribute( 'disabled', 'disabled' );
+};
+
+const enableSubmitBtn = ( form ) => {
+  if ( !form.querySelector( '[type="submit"]' ) ) return;
+  form.querySelector( '[type="submit"]' ).removeAttribute( 'disabled' );
+};
 
 const sendData = ( evt, url, isOk, isError ) => {
-  const errorNode = isOpenModal() ?
-    evt.target.closest( '.hystmodal__window' ) :
-    evt.target;
+  const errorNode = evt.target;
+  const formData = new FormData( evt.target );
 
   disableSubmitBtn( evt.target );
   fetch( url, {
       method: 'POST',
-      body: new FormData( evt.target )
+      body: formData,
     } )
     .then( ( data ) => {
       if ( data.ok ) {
@@ -89,41 +94,12 @@ const sendData = ( evt, url, isOk, isError ) => {
     } );
 };
 
-const fadeOut = ( elem ) => {
-  if ( !elem ) return;
-
-  const FADE_TIMEOUT = 10;
-  const FADE_STEP = 0.05;
-  let targetNode;
-
-  if ( typeof elem === 'string' ) {
-    targetNode = document.querySelector( elem );
-  } else {
-    targetNode = elem;
-  }
-  targetNode.style.transition = 'opacity .05s ease';
-
-  const processFade = () => {
-    if ( !targetNode.style.opacity ) {
-      targetNode.style.opacity = 1;
-    }
-
-    if ( targetNode.style.opacity > 0 ) {
-      targetNode.style.opacity -= FADE_STEP;
-    } else {
-      clearInterval( fadeFn );
-      targetNode.style.display = 'none';
-    }
-  };
-
-  const fadeFn = setInterval( processFade, FADE_TIMEOUT );
-};
-
 export {
   iosVhFix,
   isEscKey,
+  lockScroll,
+  unlockScroll,
   initSlider,
-  sendData,
   initModal,
-  fadeOut
+  sendData
 };

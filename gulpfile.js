@@ -1,4 +1,5 @@
 import gulp from 'gulp';
+import fs from 'fs';
 import browserSync from 'browser-sync';
 import cleanBuildFolder from './inc/clean.mjs';
 import copyAssets from './inc/assets.mjs';
@@ -22,11 +23,23 @@ const {
 } = gulp;
 
 const BS_SERVER = browserSync.create();
+const isTypeModule = process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'production';
+
 const refreshServer = ( done ) => {
   BS_SERVER.reload();
   done();
 };
 const streamServer = () => compileCSS().pipe( BS_SERVER.stream() );
+
+const processScriptMarkup = () => {
+  return `<script src="js/vendor-bundle.js"></script>
+<script src="js/main.js" ${isTypeModule ? 'type="module"': ''}></script>`;
+};
+
+const createScriptIncludeFile = ( done ) => {
+  fs.writeFileSync( './src/html/service/scripts.html', processScriptMarkup() );
+  done();
+};
 
 const syncServer = () => {
   BS_SERVER.init( {
@@ -57,9 +70,19 @@ const processBuild = parallel(
   compileSprite,
 );
 
-const processDevelopment = series( cleanBuildFolder, processBuild, syncServer );
+const processMinifyBuild = parallel(
+  copyAssets,
+  compileHTML,
+  compileCSS,
+  copyVendorScripts,
+  compileJS,
+  copyRasterGraphics,
+  copyVectorGraphics,
+  compileSprite,
+);
 
-const processProduction = series( cleanBuildFolder, processBuild, optimizeVendorStyles );
+const processDevelopment = series( cleanBuildFolder, createScriptIncludeFile, processBuild, syncServer );
+const processProduction = series( cleanBuildFolder, createScriptIncludeFile, processBuild, optimizeVendorStyles );
 
 export default processDevelopment;
 export {

@@ -1,8 +1,9 @@
-@import "vars";
-@import "mixins";
-@import "fonts";
-@import "settings";
-@import "blocks/common/index";
-@import "blocks/header/index";
-@import "blocks/footer/index";
-@import "blocks/main/index";
+@import 'vars';
+@import 'mixins';
+@import 'fonts';
+@import 'settings';
+@import 'common/index';
+@import 'modal/index';
+@import 'header/index';
+@import 'footer/index';
+@import 'pages/index';

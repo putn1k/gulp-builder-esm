@@ -1,20 +1,18 @@
 .btn {
   @include btn-reset;
-  @include set-font(16px, 1.4, 600);
 
   display: inline-flex;
   justify-content: center;
   align-items: center;
-  padding: var(--btn-offset, var(--btn-offset-vertical, 14px) var(--btn-offset-horizontal, 26px));
-  color: var(--btn-text);
-  background-color: var(--btn-bg);
   text-decoration: none;
+}
 
+.btn-icon {
   & svg {
     margin-right: 12px;
   }
 
-  &--icon-reverse {
+  &--reverse {
     & svg {
       margin-right: 0;
       margin-left: 12px;

@@ -1,33 +1,23 @@
 :root {
-  --white: #FFFFFF;
-  --gray100: #1F2D33;
-  --gray70: #505565;
-  --gray50: #BDC1C2;
-  --gray10: #F3F5F6;
-  --red100: #BD0300;
-  --red40: #F56C69;
+  --white-color: #FFFFFF;
+  --black-color: #000000;
+  --gray-color: #1F2D33;
+  --gray-70-color: #505565;
+  --gray-50-color: #BDC1C2;
+  --gray-10-color: #F3F5F6;
+  --red-color: #BD0300;
+  --red-40-color: #F56C69;
+  --error-color: var(--red-color);
 
   // other vars
-  --min-site-width: 360px;
-  --max-site-width: 1590px;
-  --b-radius: 4px;
-
-  // theme vars
-  --main-text: var(--gray100);
-  --main-text-inv: var(--white);
-  --main-bg: var(--white);
-  --main-bg-inv: var(--gray70);
-  --accent: var(--red100);
-  --link-hover: var(--red40);
-  --btn-text: var(--white);
-  --btn-bg: var(--red100);
-  --border: var(--gray50);
-  --error: var(--red100);
+  --min-site-width: 375px;
+  --max-site-width: 1600px;
 }
 
-$sm: 576px;
+$sm: 540px;
 $md: 768px;
 $lg: 992px;
 $xl: 1200px;
 $xxl: 1600px;
+$fhd: 1920px;
 $main-font: "Open Sans";

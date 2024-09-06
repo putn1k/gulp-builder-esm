@@ -9,12 +9,16 @@
     "browser": true
   },
   "globals": {
+    "baguetteBox": "readonly",
     "HystModal": "readonly",
+    "JustBurger": "readonly",
+    "JustPhoneMask": "readonly",
+    "JustTabs": "readonly",
+    "JustValidate": "readonly",
+    "noUiSlider": "readonly",
     "SmoothScroll": "readonly",
     "Swiper": "readonly",
-    "JustValidate": "readonly",
-    "JustBurger": "readonly",
-    "JustPhoneMask": "readonly"
+    "ymaps": "readonly"
   },
   "extends": "eslint:recommended",
   "rules": {
