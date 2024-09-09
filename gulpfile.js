@@ -70,17 +70,6 @@ const processBuild = parallel(
   compileSprite,
 );
 
-const processMinifyBuild = parallel(
-  copyAssets,
-  compileHTML,
-  compileCSS,
-  copyVendorScripts,
-  compileJS,
-  copyRasterGraphics,
-  copyVectorGraphics,
-  compileSprite,
-);
-
 const processDevelopment = series( cleanBuildFolder, createScriptIncludeFile, processBuild, syncServer );
 const processProduction = series( cleanBuildFolder, createScriptIncludeFile, processBuild, optimizeVendorStyles );
 
