@@ -14,7 +14,7 @@ const processWebpack = () => {
     output: {
       filename: 'main.js',
     },
-    devtool: 'source-map',
+    devtool: false,
     module: {
       rules: [ {
         test: /\.m?js$/,
