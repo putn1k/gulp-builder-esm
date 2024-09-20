@@ -9,7 +9,7 @@ const {
   dest
 } = gulp;
 
-const isBeutifyHTML = process.env.NODE_ENV === 'production' || process.env.NODE_ENV === 'minify';
+const isProd = ( process.env.NODE_ENV === 'production' ) || ( process.env.NODE_ENV === 'minify' );
 
 const compileHTML = () => {
   return src( [ './src/*.html', '!./src/head.html', '!./src/footer.html' ] )
@@ -17,7 +17,7 @@ const compileHTML = () => {
       prefix: '@',
       basepath: '@file'
     } ).on( 'error', notify.onError() ) )
-    .pipe( gulpIf( isBeutifyHTML, beautifyHTML( {
+    .pipe( gulpIf( isProd, beautifyHTML( {
       'indent_size': 2
     } ) ) )
     .pipe( dest( './build/' ) );

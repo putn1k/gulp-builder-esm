@@ -7,7 +7,7 @@ const {
   src,
   dest,
 } = gulp;
-const isMinify = process.env.NODE_ENV === 'minify';
+const isProd = ( process.env.NODE_ENV === 'production' ) || ( process.env.NODE_ENV === 'minify' );
 const processWebpack = () => {
   return webpackStream( {
     mode: 'production',
@@ -39,7 +39,7 @@ const processBypass = () => src( './src/js/**/*.js' );
 
 const compileJS = () => {
   return src( './src/js/**/*.js' )
-    .pipe( isMinify ? processWebpack() : processBypass() )
+    .pipe( isProd ? processWebpack() : processBypass() )
     .pipe( dest( './build/js/' ) );
 };
 

@@ -12,7 +12,7 @@ const {
   dest,
 } = gulp;
 const sass = gulpSass( dartSass );
-const isProd = process.env.NODE_ENV === 'production';
+const isProd = ( process.env.NODE_ENV === 'production' ) || ( process.env.NODE_ENV === 'minify' );
 
 const compileCSS = () => {
   return src( './src/style/**/*.scss', {
