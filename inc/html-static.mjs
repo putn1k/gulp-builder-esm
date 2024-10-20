@@ -1,26 +1,23 @@
 import gulp from 'gulp';
 import notify from 'gulp-notify';
-import gulpIf from 'gulp-if';
 import fileInclude from 'gulp-file-include';
-import beautifyHTML from 'gulp-html-beautify';
+import minHTML from 'gulp-htmlmin';
 
 const {
   src,
   dest
 } = gulp;
 
-const isDev = process.env.NODE_ENV === 'development';
-
-const compileHTML = () => {
+const compileStaticHTML = () => {
   return src( [ './src/*.html', '!./src/head.html', '!./src/footer.html' ] )
     .pipe( fileInclude( {
       prefix: '@',
       basepath: '@file'
     } ).on( 'error', notify.onError() ) )
-    .pipe( gulpIf( !isDev, beautifyHTML( {
-      'indent_size': 2
-    } ) ) )
+    .pipe( minHTML( {
+      collapseWhitespace: true
+    } ) )
     .pipe( dest( './build/' ) );
 };
 
-export default compileHTML;
+export default compileStaticHTML;

@@ -8,7 +8,7 @@ const {
   src,
   dest
 } = gulp;
-const isProd = ( process.env.NODE_ENV === 'production' ) || ( process.env.NODE_ENV === 'minify' );
+const isProd = ( process.env.NODE_ENV === 'production' ) || ( process.env.NODE_ENV === 'static' );
 
 const copyRasterGraphics = () => {
   return src( [ './src/img/**/**.{jpg,jpeg,png,gif,webp}' ] )

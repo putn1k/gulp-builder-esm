@@ -1,6 +1,6 @@
 {
   "name": "gulp-builder-esm",
-  "version": "3.2.2",
+  "version": "4.0.0",
   "description": "Сборщик проектов на gulp с ES6 модулями",
   "private": true,
   "type": "module",
@@ -16,15 +16,14 @@
   "homepage": "https://github.com/putn1k/gulp-builder-esm#readme",
   "scripts": {
     "start": "cross-env NODE_ENV=development gulp",
-    "prod": "cross-env NODE_ENV=production gulp prod",
-    "minify": "cross-env NODE_ENV=minify gulp prod",
-    "prebuild": "npm run lint && npm run prod",
-    "build": "npm run lint && npm run minify",
+    "test": "cross-env NODE_ENV=test gulp build",
+    "build": "cross-env NODE_ENV=production gulp build",
+    "static": "cross-env NODE_ENV=production gulp static",
+    "final": "npm run lint && npm run build",
     "lint": "npm run stylelint && npm run eslint",
     "eslint": "eslint src/js/",
     "stylelint": "stylelint src/style/**/*.scss",
-    "clean": "gulp clean",
-    "deploy": "npm run prod && gh-pages -d build"
+    "deploy": "npm run static && gh-pages -d build"
   },
   "devDependencies": {
     "@babel/preset-env": "7.22.9",
@@ -44,6 +43,7 @@
     "gulp-csscomb": "3.1.0",
     "gulp-file-include": "2.3.0",
     "gulp-html-beautify": "1.0.1",
+    "gulp-htmlmin": "5.0.1",
     "gulp-if": "3.0.0",
     "gulp-libsquoosh": "1.1.2",
     "gulp-notify": "4.0.0",

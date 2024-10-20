@@ -4,6 +4,7 @@ import gulpIf from 'gulp-if';
 import dartSass from 'sass';
 import gulpSass from 'gulp-sass';
 import postcss from 'gulp-postcss';
+import cleanCSS from 'gulp-clean-css';
 import autoprefixer from 'autoprefixer';
 import csscomb from "gulp-csscomb";
 
@@ -12,7 +13,11 @@ const {
   dest,
 } = gulp;
 const sass = gulpSass( dartSass );
-const isProd = ( process.env.NODE_ENV === 'production' ) || ( process.env.NODE_ENV === 'minify' );
+const isDev = process.env.NODE_ENV === 'development';
+const isProd = process.env.NODE_ENV === 'production';
+const destOptions = isDev ? {
+  sourcemaps: '.'
+} : {};
 
 const compileCSS = () => {
   return src( './src/style/**/*.scss', {
@@ -24,10 +29,11 @@ const compileCSS = () => {
         cascade: false,
       } )
     ] ) )
-    .pipe( gulpIf( isProd, csscomb() ) )
-    .pipe( dest( './build/style/', {
-      sourcemaps: '.'
-    } ) )
+    .pipe( gulpIf( !isDev, csscomb() ) )
+    .pipe( gulpIf( isProd, cleanCSS( {
+      level: 2
+    } ) ) )
+    .pipe( dest( './build/assets/', destOptions ) )
 };
 
 export default compileCSS;
