@@ -1,5 +1,4 @@
 import gulp from 'gulp';
-import fs from 'fs';
 import browserSync from 'browser-sync';
 import cleanBuildFolder from './inc/clean.mjs';
 import copyAssets from './inc/assets.mjs';
@@ -20,25 +19,12 @@ const {
 } = gulp;
 
 const BS_SERVER = browserSync.create();
-const isProd = process.env.NODE_ENV === 'production';
 
 const refreshServer = ( done ) => {
   BS_SERVER.reload();
   done();
 };
 const streamServer = () => compileCSS().pipe( BS_SERVER.stream() );
-
-const processScriptMarkup = () => {
-  const prodMarkup = '<script src="assets/main.js"></script>';
-  const devMarkup = '<script src="assets/vendor.js"></script><script src="assets/main.js" type="module"></script>';
-
-  return isProd ? prodMarkup : devMarkup;
-};
-
-const createScriptIncludeFile = ( done ) => {
-  fs.writeFileSync( './src/html/service/scripts.html', processScriptMarkup() );
-  done();
-};
 
 const syncServer = () => {
   BS_SERVER.init( {
@@ -57,8 +43,6 @@ const syncServer = () => {
   watch( [ './src/img/**/**.svg', '!./src/img/sprite/**.svg' ], series( copyVectorGraphics, refreshServer ) );
   watch( './src/img/sprite/**.svg', series( compileSprite, refreshServer ) );
 };
-
-
 
 const processBuild = parallel(
   copyAssets,
@@ -80,9 +64,9 @@ const processStaticBuild = parallel(
   compileSprite,
 );
 
-const processDevelopment = series( cleanBuildFolder, createScriptIncludeFile, processBuild, syncServer );
-const runBuild = series( cleanBuildFolder, createScriptIncludeFile, processBuild );
-const runStaticBuild = series( cleanBuildFolder, createScriptIncludeFile, processStaticBuild );
+const processDevelopment = series( cleanBuildFolder, processBuild, syncServer );
+const runBuild = series( cleanBuildFolder, processBuild );
+const runStaticBuild = series( cleanBuildFolder, processStaticBuild );
 
 export default processDevelopment;
 export {
