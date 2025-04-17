@@ -1,6 +1,6 @@
 import gulp from 'gulp';
 import gulpIf from 'gulp-if';
-import squoosh from 'gulp-libsquoosh';
+import imagemin from 'gulp-imagemin';
 import svgmin from 'gulp-svgmin';
 import svgSprite from 'gulp-svg-sprite';
 
@@ -12,7 +12,7 @@ const isProd = ( process.env.NODE_ENV === 'production' ) || ( process.env.NODE_E
 
 const copyRasterGraphics = () => {
   return src( [ './src/img/**/**.{jpg,jpeg,png,gif,webp}' ] )
-    .pipe( gulpIf( isProd, squoosh() ) )
+    .pipe( gulpIf( isProd, imagemin() ) )
     .pipe( dest( './build/img/' ) );
 };
 

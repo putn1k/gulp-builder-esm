@@ -1,5 +1,6 @@
 import gulp from 'gulp';
 import browserSync from 'browser-sync';
+import concat from 'gulp-concat';
 import cleanBuildFolder from './inc/clean.mjs';
 import copyAssets from './inc/assets.mjs';
 import compileHTML from './inc/html.mjs';
@@ -11,8 +12,13 @@ import {
   copyVectorGraphics,
   compileSprite,
 } from './inc/images.mjs';
+import {
+  deleteAsync
+} from 'del';
 
 const {
+  src,
+  dest,
   series,
   parallel,
   watch
@@ -34,15 +40,36 @@ const syncServer = () => {
     notify: false,
     ui: false,
   } );
-  watch( [ './src/*.html', './src/html/**/*.html' ], series( compileHTML, refreshServer ) );
-  watch( './src/style/**/*.scss', series( compileCSS, streamServer ) );
-  watch( './src/js/**/*.js', series( compileJS, refreshServer ) );
-  watch( './src/assets/', series( copyAssets, refreshServer ) );
   watch( './src/vendor/', series( compileCSS, compileJS, refreshServer ) );
+  watch( [ './src/*.html', './src/html/**/*.html' ], series( compileHTML, refreshServer ) );
+  watch( './src/js/**/*.js', series( compileJS, refreshServer ) );
+  watch( './src/style/**/*.scss', series( compileCSS, streamServer ) );
+  watch( './src/assets/', series( copyAssets, refreshServer ) );
   watch( [ './src/img/**/**.{jpg,jpeg,png,gif,webp}' ], series( copyRasterGraphics, refreshServer ) );
   watch( [ './src/img/**/**.svg', '!./src/img/sprite/**.svg' ], series( copyVectorGraphics, refreshServer ) );
   watch( './src/img/sprite/**.svg', series( compileSprite, refreshServer ) );
 };
+
+const concatCSS = () => {
+  return src( [ './build/assets/vendor.css', './build/assets/main.css' ] )
+    .pipe( concat( 'main.css' ) )
+    .pipe( dest( './build/assets/' ) );
+};
+
+const concatJS = () => {
+  return src( [ './build/assets/vendor.js', './build/assets/main.js' ] )
+    .pipe( concat( 'main.js', {
+      newLine: '\n' + '/*User JS*/' + '\n'
+    } ) )
+    .pipe( dest( './build/assets/' ) );
+};
+
+const delVendorCSS = () => deleteAsync( [ './build/assets/vendor.css' ] );
+const delVendorJS = () => deleteAsync( [ './build/assets/vendor.js' ] );
+
+const processConcateVendor = parallel( concatCSS, concatJS );
+const processDeleteVendor = parallel( delVendorCSS, delVendorJS );
+const processVendor = series( processConcateVendor, processDeleteVendor );
 
 const processBuild = parallel(
   copyAssets,
@@ -64,9 +91,9 @@ const processStaticBuild = parallel(
   compileSprite,
 );
 
-const processDevelopment = series( cleanBuildFolder, processBuild, syncServer );
-const runBuild = series( cleanBuildFolder, processBuild );
-const runStaticBuild = series( cleanBuildFolder, processStaticBuild );
+const processDevelopment = series( cleanBuildFolder, processBuild, processVendor, syncServer );
+const runBuild = series( cleanBuildFolder, processBuild, processVendor );
+const runStaticBuild = series( cleanBuildFolder, processStaticBuild, processVendor );
 
 export default processDevelopment;
 export {

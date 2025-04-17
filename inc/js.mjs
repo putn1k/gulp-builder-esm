@@ -2,7 +2,8 @@ import gulp from 'gulp';
 import webpackStream from 'webpack-stream';
 import concat from 'gulp-concat';
 import CircularDependencyPlugin from 'circular-dependency-plugin';
-import DuplicatePackageCheckerPlugin from 'duplicate-package-checker-webpack-plugin';
+import postcssPresetEnv from 'postcss-preset-env';
+import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import {
   deleteAsync
 } from 'del';
@@ -22,21 +23,41 @@ const processWebpack = () => {
     devtool: false,
     module: {
       rules: [ {
-        test: /\.m?js$/,
-        exclude: [ /node_modules/, /vendor/ ],
-        use: {
-          loader: 'babel-loader',
-          options: {
-            presets: [
-              '@babel/preset-env'
-            ]
+          test: /\.m?js$/,
+          exclude: [ /node_modules/, /vendor/ ],
+          use: {
+            loader: 'babel-loader',
+            options: {
+              presets: [
+                '@babel/preset-env'
+              ]
+            },
           },
         },
-      } ],
+        {
+          test: /\.css$/i,
+          use: [
+            MiniCssExtractPlugin.loader,
+            'css-loader',
+            {
+              loader: 'postcss-loader',
+              options: {
+                postcssOptions: {
+                  plugins: [
+                    postcssPresetEnv()
+                  ]
+                }
+              }
+            }
+          ]
+        }
+      ],
     },
     plugins: [
-      new DuplicatePackageCheckerPlugin(),
-      new CircularDependencyPlugin()
+      new CircularDependencyPlugin(),
+      new MiniCssExtractPlugin( {
+        filename: 'vendor.css'
+      } )
     ],
   } )
 };
@@ -53,21 +74,11 @@ const processVendorJS = () => {
     .pipe( dest( './build/assets/' ) );
 };
 
-const concatJS = () => {
-  return src( [ './build/assets/vendor.js', './build/assets/main.js' ] )
-    .pipe( concat( 'main.js', {
-      newLine: '\n' + '/*User JS*/' + '\n'
-    } ) )
-    .pipe( dest( './build/assets/' ) );
-};
 
-const delVendorJS = () => deleteAsync( [ './build/assets/vendor.js' ] );
 
 const compileJS = series(
   processVendorJS,
   processUserJS,
-  concatJS,
-  delVendorJS
 );
 
 export default compileJS;
