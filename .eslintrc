@@ -9,21 +9,20 @@
     "browser": true
   },
   "globals": {
+    "AcceptCookiePopup": "readonly",
     "baguetteBox": "readonly",
     "HystModal": "readonly",
-    "JustBurger": "readonly",
     "JustPhoneMask": "readonly",
-    "JustTabs": "readonly",
     "JustValidate": "readonly",
-    "noUiSlider": "readonly",
     "SmoothScroll": "readonly",
-    "Swiper": "readonly",
-    "ymaps": "readonly"
+    "Swiper": "readonly"
   },
   "extends": "eslint:recommended",
   "rules": {
     "no-alert": "error",
-    "no-console": "error",
+    "no-console": [ "error", {
+      "allow": [ "warn", "error" ]
+    } ],
     "quotes": [ "error", "single" ],
     "semi": "error",
     "semi-style": "error",
