@@ -1,6 +1,22 @@
+import Swiper from 'swiper';
+import {
+  Navigation
+} from 'swiper/modules';
+import 'swiper/css';
+import 'swiper/css/navigation';
 import {
   sliderConfig
 } from './configs.js';
+
+const debounce = ( cb, delay ) => {
+  let timer;
+  return function( ...args ) {
+    clearTimeout( timer );
+    timer = setTimeout( () => {
+      cb.apply( this, args );
+    }, delay );
+  };
+};
 
 const iosChecker = () => {
   return [
@@ -31,10 +47,16 @@ const iosVhFix = () => {
 };
 
 const lockScroll = () => {
-  !document.documentElement.classList.contains( 'is-lock-scroll' ) ? document.documentElement.classList.add( 'is-lock-scroll' ) : '';
+  if ( !document.documentElement.classList.contains( 'is-lock-scroll' ) ) {
+    const offset = window.innerWidth - document.documentElement.clientWidth;
+
+    document.documentElement.style.setProperty( '--page-offset-right', `${offset}px` );
+    document.documentElement.classList.add( 'is-lock-scroll' );
+  }
 };
 
 const unlockScroll = () => {
+  document.documentElement.style.setProperty( '--page-offset-right', '' );
   document.documentElement.classList.remove( 'is-lock-scroll' );
 };
 
@@ -46,7 +68,9 @@ const initModal = ( name, handler = 'data-hystmodal' ) => {
 };
 
 const initSlider = ( name, options = {} ) => {
-  const defaultConfig = Object.assign( {}, sliderConfig.default );
+  const defaultConfig = Object.assign( {}, {
+    modules: [ Navigation ],
+  }, sliderConfig.default );
   const customConfig = Object.assign( defaultConfig, options );
 
   if ( typeof name === 'string' ) {
@@ -95,6 +119,7 @@ const sendData = ( evt, url, isOk, isError ) => {
 };
 
 export {
+  debounce,
   iosVhFix,
   isEscKey,
   lockScroll,

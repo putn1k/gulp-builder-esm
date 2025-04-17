@@ -53,7 +53,7 @@
   -webkit-tap-highlight-color: transparent;
 }
 
-@mixin anim($animation-name, $animation-time) {
+@mixin anim($animation-name, $animation-time: 0.4s) {
   animation-name: $animation-name;
   animation-fill-mode: forwards;
   animation-duration: $animation-time;
@@ -94,4 +94,10 @@
   top: 0;
   width: 100%;
   height: 100%;
+}
+
+@mixin any-hover {
+  @media (any-hover: hover) {
+    @content;
+  }
 }

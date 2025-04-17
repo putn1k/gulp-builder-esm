@@ -9,7 +9,7 @@
   height: 40px;
   opacity: 0;
   pointer-events: none;
-  transition: opacity .25s ease-in-out;
+  transition: opacity var(--duration-default) ease-in-out;
   z-index: 2;
 
   &--show {
@@ -23,19 +23,17 @@
     justify-content: center;
     width: 100%;
     height: 100%;
-    color: #FFFFFF;
-    background-color: #505565;
+    color: var(--black);
+    background-color: var(--white);
     border-radius: 50%;
 
     & svg {
       width: 50%;
       height: 50%;
     }
-  }
 
-  @include media-min ($xl) {
-    &__link {
-      transition: opacity .25s ease-in-out;
+    @include any-hover {
+      transition: opacity var(--duration-default) ease-in-out;
 
       &:hover {
         opacity: 0.7;

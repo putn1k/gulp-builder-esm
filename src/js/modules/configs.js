@@ -3,6 +3,10 @@ const sliderConfig = {
     slidesPerView: 1,
     spaceBetween: 30,
     watchSlidesProgress: true,
+    navigation: {
+      prevEl: '[data-to-slide="prev"]',
+      nextEl: '[data-to-slide="next"]',
+    }
   },
 };
 
@@ -22,6 +26,7 @@ const modalConfig = {
 const validateConfig = {
   justValidate: {
     errorFieldCssClass: 'is-invalid',
+    errorLabelCssClass: 'error-massage',
     errorLabelStyle: {
       color: 'var(--error)',
       marginTop: '6px',

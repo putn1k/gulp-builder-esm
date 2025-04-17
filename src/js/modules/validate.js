@@ -1,3 +1,5 @@
+import JustValidate from 'just-validate';
+
 import {
   validateConfig,
   requestsConfig
@@ -27,6 +29,7 @@ export const validateForms = () => {
 
   forms.forEach( ( form ) => {
     const formID = `#${form.id}`;
+    const sentParams = form.dataset.params ? form.dataset.params : '';
     const validationRules = new JustValidate( formID, justValidateConfig );
     const requiredFields = document.querySelectorAll( `${formID} [required]` );
     new JustPhoneMask( validateConfig.mask );
@@ -93,7 +96,7 @@ export const validateForms = () => {
       }
     } );
     validationRules.onSuccess( ( evt ) => {
-      sendData( evt, requestsConfig.handlerURL, isSendOk, isSendError );
+      sendData( evt, `${requestsConfig.handlerURL}${sentParams}`, isSendOk, isSendError );
     } );
   } );
 };

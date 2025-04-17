@@ -1,3 +1,7 @@
+import baguetteBox from 'baguettebox.js';
+import 'baguettebox.js/dist/baguetteBox.min.css';
+import SmoothScroll from 'smooth-scroll';
+
 import {
   smoothScrollConfig
 } from './configs.js';
@@ -14,6 +18,7 @@ const initSiteSettings = () => {
   iosVhFix();
   initScrollObserver();
   new SmoothScroll( 'a[href*="#"]', smoothScrollConfig );
+  new AcceptCookiePopup();
   [ '[data-gallery]' ].map( ( item ) => baguetteBox.run( item ) );
 };
 

@@ -1,23 +1,23 @@
 :root {
-  --white-color: #FFFFFF;
-  --black-color: #000000;
-  --gray-color: #1F2D33;
-  --gray-70-color: #505565;
-  --gray-50-color: #BDC1C2;
-  --gray-10-color: #F3F5F6;
-  --red-color: #BD0300;
-  --red-40-color: #F56C69;
-  --error-color: var(--red-color);
+  --white: #FFFFFF;
+  --black: #000000;
+  --red: #BD0300;
+  --error: var(--red);
 
   // other vars
   --min-site-width: 375px;
-  --max-site-width: 1600px;
+  --max-site-width: 1920px;
+  --max-container-width: 1590px;
+
+  // transitions
+  --duration-default: 0.3s;
+  --duration-fast: 0.15s;
+  --duration-slow: 0.6s;
 }
 
 $sm: 540px;
 $md: 768px;
-$lg: 992px;
-$xl: 1200px;
-$xxl: 1600px;
-$fhd: 1920px;
+$lg: 1024px;
+$xl: 1440px;
+$xxl: 1920px;
 $main-font: "Open Sans";
