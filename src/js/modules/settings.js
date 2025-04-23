@@ -1,5 +1,4 @@
 import baguetteBox from 'baguettebox.js';
-import 'baguettebox.js/dist/baguetteBox.min.css';
 import SmoothScroll from 'smooth-scroll';
 
 import {

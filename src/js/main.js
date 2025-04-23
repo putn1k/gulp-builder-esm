@@ -1,3 +1,8 @@
+import 'baguettebox.js/dist/baguetteBox.min.css';
+import 'swiper/css';
+import 'swiper/css/navigation';
+import '../style/main.scss';
+
 import {
   initSiteSettings
 } from './modules/settings.js';

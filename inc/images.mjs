@@ -11,15 +11,15 @@ const {
 const isProd = ( process.env.NODE_ENV === 'production' ) || ( process.env.NODE_ENV === 'static' );
 
 const copyRasterGraphics = () => {
-  return src( [ './src/img/**/**.{jpg,jpeg,png,gif,webp}' ] )
+  return src( [ './src/img/**/**.{jpg,jpeg,png,gif,webp}', '!./src/img/static', '!./src/img/static/**' ] )
     .pipe( gulpIf( isProd, imagemin() ) )
-    .pipe( dest( './build/img/' ) );
+    .pipe( dest( './build/assets/img/' ) );
 };
 
 const copyVectorGraphics = () => {
   return src( [ './src/img/**/**.svg', '!./src/img/sprite/**.svg' ] )
     .pipe( gulpIf( isProd, svgmin() ) )
-    .pipe( dest( './build/img/' ) );
+    .pipe( dest( './build/assets/img/' ) );
 };
 
 const compileSprite = () => {
@@ -32,7 +32,7 @@ const compileSprite = () => {
         }
       },
     } ) )
-    .pipe( dest( './build/img/' ) );
+    .pipe( dest( './build/assets/img/' ) );
 }
 
 export {

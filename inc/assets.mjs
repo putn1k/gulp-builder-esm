@@ -5,7 +5,7 @@ const {
   dest
 } = gulp;
 const copyAssets = () => {
-  return src( './src/assets/**' )
+  return src( [ './src/assets/**', '!./src/assets/fonts', '!./src/assets/fonts/**' ] )
     .pipe( dest( './build/' ) )
 }
 
