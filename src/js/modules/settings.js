@@ -1,5 +1,6 @@
 import baguetteBox from 'baguettebox.js';
 import SmoothScroll from 'smooth-scroll';
+import AcceptCookiePopup from 'accept-cookie-popup';
 
 import {
   smoothScrollConfig

@@ -1,11 +1,10 @@
-import 'baguettebox.js/dist/baguetteBox.min.css';
-import 'swiper/css';
-import 'swiper/css/navigation';
-import '../style/main.scss';
+import './modules/libsCss.js';
+import 'focus-visible';
 
 import {
   initSiteSettings
 } from './modules/settings.js';
+
 import {
   initModals
 } from './modules/modal.js';

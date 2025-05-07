@@ -1,4 +1,5 @@
 import JustValidate from 'just-validate';
+import JustPhoneMask from 'just-phone-mask';
 
 import {
   validateConfig,

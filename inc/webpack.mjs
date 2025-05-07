@@ -115,13 +115,17 @@ const runWebpack = () => {
 const delVendorJS = () => deleteAsync( [ './build/assets/vendor.js' ] );
 
 const concatJS = () => {
-  return src( [ './build/assets/vendor.js', './build/assets/main.js' ] )
+  return src( [ './build/assets/vendor.js', './build/assets/main.js' ], {
+      allowEmpty: true
+    } )
     .pipe( concat( 'main.js' ) )
     .pipe( dest( './build/assets/' ) );
 };
 
 const processVendorJS = () => {
-  return src( './src/vendor/**/*.js' )
+  return src( './src/vendor/**/*.js', {
+      allowEmpty: true
+    } )
     .pipe( concat( 'vendor.js' ) )
     .pipe( dest( './build/assets/' ) );
 };
