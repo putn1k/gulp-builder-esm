@@ -68,7 +68,7 @@
     "not IE 11"
   ],
   "dependencies": {
-    "accept-cookie-popup": "1.2.0",
+    "accept-cookie-popup": "1.2.1",
     "baguettebox.js": "1.12.0",
     "focus-visible": "5.2.1",
     "hystmodal": "1.0.1",
