@@ -1,3 +1,11 @@
 .swiper-slide {
   height: var(--swiper-height, 100%);
 }
+
+.hystmodal {
+  &__window {
+    width: calc(100% - 30px);
+    max-width: var(--modal-width, 400px);
+    background: none;
+  }
+}

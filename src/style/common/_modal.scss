@@ -1,0 +1,28 @@
+.modal {
+  --modal-width: 400px;
+
+  &__content {
+    position: relative;
+    color: var(--black);
+    background-color: var(--white);
+    padding: 32px;
+  }
+
+  &__close {
+    @include btn-reset;
+
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 24px;
+    height: 24px;
+    color: var(--black);
+  }
+
+  @include media-min ($xl) {
+    --modal-width: 500px;
+  }
+}
