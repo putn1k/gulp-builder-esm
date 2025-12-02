@@ -1,29 +1,26 @@
-import HystModal from 'hystmodal';
-
-import {
-  modalConfig,
-} from './configs.js';
-
 import {
   initModal,
 } from './utils.js';
 
-const beforeOpenCb = ( modal ) => {
+const beforeOpenCallback = ( modal ) => {
   switch ( modal.openedWindow.id ) {
     default:
       return;
   }
 };
-
-const simpleModal = new HystModal( Object.assign( modalConfig, {
-  beforeOpen: beforeOpenCb,
-} ) );
-
+const afterCloseCallback = ( modal ) => {
+  switch ( modal.openedWindow.id ) {
+    default:
+      return;
+  }
+};
 const initModals = () => {
-  initModal( simpleModal );
+  initModal( 'siteModal', 'data-hystmodal', {
+    beforeOpen: beforeOpenCallback,
+    afterClose: afterCloseCallback,
+  } );
 };
 
 export {
-  simpleModal,
   initModals,
 };
