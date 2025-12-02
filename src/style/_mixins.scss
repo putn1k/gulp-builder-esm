@@ -41,7 +41,7 @@
 @mixin list-reset {
   @include indent-reset;
 
-  list-style: none;
+  list-style-type: none;
 }
 
 @mixin btn-reset {
@@ -49,13 +49,38 @@
   color: inherit;
   background-color: transparent;
   border: none;
+  text-decoration: none;
   cursor: pointer;
   -webkit-tap-highlight-color: transparent;
 }
 
-@mixin anim($animation-name, $animation-time: 0.4s) {
+@mixin input-base {
+  font-size: 16px;
+  line-height: 1;
+  padding: 14px;
+  width: 100%;
+  color: inherit;
+  border: none;
+  appearance: none;
+
+  &:-webkit-autofill,
+  &:-webkit-autofill:focus {
+    transition: background-color 0s 600000s, color 0s 600000s !important;
+  }
+}
+
+@mixin area-base {
+  @include input-base;
+
+  resize: none;
+  height: 6em;
+  line-height: 1.3;
+}
+
+
+@mixin anim($animation-name, $animation-time: 0.4s, $fm: forwards) {
   animation-name: $animation-name;
-  animation-fill-mode: forwards;
+  animation-fill-mode: $fm;
   animation-duration: $animation-time;
 }
 

@@ -19,12 +19,18 @@ input[type='file'].visually-hidden {
   @include list-reset;
 }
 
+.list-type-reset {
+  list-style-type: none;
+}
+
 .btn-reset {
   @include btn-reset;
 }
 
 .shaked {
   @include anim(shake, 0.6s);
+
+  pointer-events: none;
 }
 
 .is-lock-scroll {

@@ -13,16 +13,18 @@
   }
 }
 
-.slider-control {
-  @include btn-reset;
+.slider-controls {
+  pointer-events: none;
 
-  border-radius: 50%;
-  width: 40px;
-  height: 40px;
-  pointer-events: auto;
+  &__btn {
+    @include btn-reset;
 
-  & svg {
-    width: 12px;
-    height: 12px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    pointer-events: auto;
   }
 }

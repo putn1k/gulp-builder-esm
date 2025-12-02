@@ -4,18 +4,4 @@
   display: inline-flex;
   justify-content: center;
   align-items: center;
-  text-decoration: none;
-}
-
-.btn-icon {
-  & svg {
-    margin-right: 12px;
-  }
-
-  &--reverse {
-    & svg {
-      margin-right: 0;
-      margin-left: 12px;
-    }
-  }
 }

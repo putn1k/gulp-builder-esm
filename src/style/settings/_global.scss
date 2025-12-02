@@ -10,6 +10,7 @@ html {
 
 body {
   min-width: var(--min-site-width);
+  scroll-behavior: smooth;
   -webkit-tap-highlight-color: transparent;
 }
 
