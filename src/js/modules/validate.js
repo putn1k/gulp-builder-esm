@@ -3,7 +3,6 @@ import JustPhoneMask from 'just-phone-mask';
 
 import {
   validateConfig,
-  requestsConfig
 } from './configs.js';
 
 import {
@@ -13,7 +12,7 @@ import {
 const justValidateConfig = validateConfig.justValidate;
 
 const isSendOk = () => {
-  return;
+  window.hystmodal.siteModal.open( '#send-ok-modal' );
 };
 
 const isSendError = ( target ) => {
@@ -30,20 +29,12 @@ export const validateForms = () => {
 
   forms.forEach( ( form ) => {
     const formID = `#${form.id}`;
-    const sentParams = form.dataset.params ? form.dataset.params : '';
     const validationRules = new JustValidate( formID, justValidateConfig );
     const requiredFields = document.querySelectorAll( `${formID} [required]` );
     new JustPhoneMask( validateConfig.mask );
 
     requiredFields.forEach( ( input ) => {
       switch ( input.dataset.validate ) {
-        case 'name':
-          validationRules.addField( `${formID} [data-validate="name"]`, [ {
-            rule: 'required',
-            value: true,
-            errorMessage: 'Поле обязательно для заполнения'
-          }, ] );
-          break;
         case 'email':
           validationRules.addField( `${formID} [data-validate="email"]`, [ {
               rule: 'required',
@@ -94,10 +85,17 @@ export const validateForms = () => {
             errorMessage: 'Подтвердите согласие на обработку персональных данных',
           }, ] );
           break;
+        default:
+          validationRules.addField( `${formID} [data-validate="${input.dataset.validate}"]`, [ {
+            rule: 'required',
+            value: true,
+            errorMessage: 'Поле обязательно для заполнения'
+          }, ] );
+          break;
       }
     } );
     validationRules.onSuccess( ( evt ) => {
-      sendData( evt, `${requestsConfig.handlerURL}${sentParams}`, isSendOk, isSendError );
+      sendData( evt, evt.target.action, false, isSendOk, isSendError );
     } );
   } );
 };

@@ -111,15 +111,44 @@ const enableSubmitBtn = ( form ) => {
   form.querySelector( '[type="submit"]' ).removeAttribute( 'disabled' );
 };
 
-const sendData = ( evt, url, isOk, isError ) => {
+const formDataToJson = ( formData ) => {
+  const object = {};
+  formData.forEach( ( value, key ) => {
+    if ( !Object.prototype.hasOwnProperty.call( object, key ) ) {
+      object[ key ] = value;
+    } else {
+      if ( !Array.isArray( object[ key ] ) ) {
+        object[ key ] = [ object[ key ] ];
+      }
+      object[ key ].push( value );
+    }
+  } );
+  return JSON.stringify( object );
+};
+
+const sendData = ( evt, url, isSendJSON = false, isOk, isError ) => {
   const errorNode = evt.target;
-  const formData = new FormData( evt.target );
+  const data = new FormData( evt.target );
+  const params = {
+    method: 'POST',
+  };
+
+  if ( isSendJSON ) {
+    Object.assign( params, {
+      headers: {
+        'content-type': 'application/json'
+      },
+      body: formDataToJson( data ),
+    } );
+  } else {
+    Object.assign( params, {
+      body: data,
+    } );
+  }
+
 
   disableSubmitBtn( evt.target );
-  fetch( url, {
-      method: 'POST',
-      body: formData,
-    } )
+  fetch( url, params )
     .then( ( data ) => {
       if ( data.ok ) {
         isOk( evt.target );
@@ -144,5 +173,5 @@ export {
   unlockScroll,
   initSlider,
   initModal,
-  sendData
+  sendData,
 };

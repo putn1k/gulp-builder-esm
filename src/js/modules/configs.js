@@ -49,15 +49,10 @@ const observerConfig = {
   },
 };
 
-const requestsConfig = {
-  handlerURL: 'https://jsonplaceholder.typicode.com/posts',
-};
-
 export {
   sliderConfig,
   smoothScrollConfig,
   modalConfig,
   validateConfig,
   observerConfig,
-  requestsConfig,
 };
