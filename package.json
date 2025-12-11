@@ -1,6 +1,6 @@
 {
   "name": "gulp-builder-esm",
-  "version": "5.2.1",
+  "version": "5.2.2",
   "description": "Сборщик проектов на gulp с ES6 модулями",
   "private": true,
   "type": "module",
